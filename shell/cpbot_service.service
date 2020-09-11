@@ -1,0 +1,10 @@
+[Unit]
+Description=CodePractice Bot Service
+
+[Service]
+ExecStart=/home/pi/py3/bin/python /home/pi/CodePracticeBot/bot.py -c /home/pi/cpbot
+Restart=on-failure
+Type=notify
+
+[Install]
+WantedBy=default.target
