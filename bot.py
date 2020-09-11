@@ -7,7 +7,6 @@ import os
 import getopt
 import sys
 import config
-from cmdproc import startcmd
 
 def help():
     return "'bot.py -c <configpath>'"
@@ -46,7 +45,9 @@ if __name__ == '__main__':
     print('Starting... (ID: ' + str(CONFIG['ID']) + ', Username: ' + CONFIG['Username'] + ')')
 
     # 在这里加入功能
+    from cmdproc import startcmd,rewardscmd
     startcmd.add_dispatcher(dispatcher)
+    rewardscmd.add_dispatcher(dispatcher)
 
     updater.start_polling()
     print('Started')
