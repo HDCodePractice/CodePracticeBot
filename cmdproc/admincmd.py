@@ -29,6 +29,8 @@ cmds = [
         "admin:update":"更新",
         "admin:restart":"重启",
         "admin:status":"状态"
+    },{
+        "admin:help":"帮助"
     }
 ]
 
@@ -57,6 +59,8 @@ def admin_cmd_callback(update : Update, context : CallbackContext):
             os.system(shell)
             msg = "反回信息:\n" + open("/tmp/gitpull.txt").read()
             query.answer("更新代码")
+        elif query.data == "admin:help":
+            msg = help()
         if msg != query.message.text :
             query.edit_message_text(text=msg,reply_markup=init_replay_markup())
     else:
@@ -76,7 +80,12 @@ def init_replay_markup():
 
 def help():
     msg = """
-都按按钮吧
+可以点按按钮的必须是在配置文件里Admin的uid
+配置： 查看配置文件的内容
+更新： 从GitHub上更新Bot的代码
+重启： 重启Bot，应用新的代码或配置
+状态： 查看服务运行的状态
+作者：hdcola
 """
     return msg
 
