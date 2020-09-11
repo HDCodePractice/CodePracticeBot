@@ -45,9 +45,10 @@ if __name__ == '__main__':
     print('Starting... (ID: ' + str(CONFIG['ID']) + ', Username: ' + CONFIG['Username'] + ')')
 
     # 在这里加入功能
-    from cmdproc import startcmd,rewardscmd
+    from cmdproc import startcmd,rewardscmd,admincmd
     startcmd.add_dispatcher(dispatcher)
     rewardscmd.add_dispatcher(dispatcher)
+    admincmd.add_dispatcher(dispatcher)
 
     updater.start_polling()
     print('Started')

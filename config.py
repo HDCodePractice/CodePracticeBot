@@ -35,5 +35,7 @@ def set_default():
     # if not folder:
     #     os.makedirs(filepath)
     load_config
-    CONFIG.setdefault("Token","")   #BotToken
+    CONFIG.setdefault("Token","")       #BotToken
+    CONFIG.setdefault("Admin",[])       #管理员id
+    CONFIG.setdefault("Admin_path","")  #Admin Shell Path
     save_config()
