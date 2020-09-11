@@ -39,6 +39,7 @@ def rewards(update : Update, context : CallbackContext):
             update.effective_user.first_name,
             xp
         )
+    msg += "\n\n作者:hdcola"
     update.message.reply_text(msg)
 
 def add_dispatcher(dp: Dispatcher):

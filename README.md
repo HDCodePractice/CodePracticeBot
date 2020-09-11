@@ -6,8 +6,11 @@
 ## 服务器环境
 
 ```
-sudo apt-get install libxslt-dev python3-venv python3-pip
-pip install -r requirements.txt
+cd /home/pi
+sudo apt-get install python3-venv python3-pip libffi-dev
+python3 -m venv py3
+source py3/bin/activate
+pip3 install -r CodePracticeBot/requirements.txt
 ```
 
 ## 运行
