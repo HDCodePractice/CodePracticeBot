@@ -2,6 +2,11 @@
 
 这是我们在线上正式运行的Bot机器人，机器人的代码大部分来自于小组成员。欢迎大家提交更有意思的PR。
 
+现在支持的功能：
+
+rewards - 奖励大转盘 作者:hdcola
+admin - 管理机器人 作者:hdcola
+help - 查看帮助 作者:hdcola
 
 ## 服务器环境
 
@@ -28,8 +33,7 @@ python3 bot.py -c /home/pi/cpbot
 
 ```
 mkdir -p /home/pi/.config/systemd/user
-cd /home/pi/.config/systemd/user
-cp ~/CodePracticeBot/shell/cpbot_service.service .
+cp /home/pi/CodePracticeBot/shell/cpbot_service.service /home/pi/.config/systemd/user
 systemctl --user daemon-reload
 systemctl --user start cpbot_service
 systemctl --user enable cpbot_service
