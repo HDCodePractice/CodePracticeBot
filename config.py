@@ -38,4 +38,5 @@ def set_default():
     CONFIG.setdefault("Token","")       #BotToken
     CONFIG.setdefault("Admin",[])       #管理员id
     CONFIG.setdefault("Admin_path","")  #Admin Shell Path
+    CONFIG.setdefault("OWM_key","")     #OpenWeatherMap key
     save_config()

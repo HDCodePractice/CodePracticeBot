@@ -42,6 +42,7 @@ def admin_cmd_callback(update : Update, context : CallbackContext):
             config.set_default()
             cfg = config.CONFIG.copy()
             cfg['Token'] = "***"
+            cfg['OWM_key'] = "***"
             query.answer("获取配置")
             msg = dumps(cfg,indent=4,ensure_ascii=False)
         elif query.data == "admin:status":
