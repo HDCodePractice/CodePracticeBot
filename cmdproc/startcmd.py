@@ -15,6 +15,7 @@ def help():
     到今天，我竟然只有一个技能，一定是出了什么问题，希望有人能快快给我增加能力！
 
     /rewards 奖励大转盘 作者:hdcola
+    /weather 查询天气 作者:hdcola
     /admin 管理机器人 作者:hdcola
     /help 查看帮助 作者:hdcola
     """
