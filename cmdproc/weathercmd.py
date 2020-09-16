@@ -5,15 +5,17 @@
 使用的是onecall api
 返回的数值参见： https://openweathermap.org/api/one-call-api
 相关的编码说明参见： https://pyowm.readthedocs.io/en/latest/v3/code-recipes.html#onecall
+相关的API文档：https://pyowm.readthedocs.io/en/latest/pyowm.weatherapi25.html#module-pyowm.weatherapi25.weather
 天气状态的说明参见： https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
 天气的emoji参见： https://www.emojidaquan.com/category2-sky-weather
 """
 
+from typing import List
 from pyowm import OWM
 from pyowm.weatherapi25.weather import Weather
 from telegram.ext import Dispatcher,CommandHandler,CallbackContext
 from telegram import Update
-from datetime import datetime,timezone,timedelta
+from datetime import datetime
 import pytz
 
 weather_status = {
@@ -85,7 +87,7 @@ def get_local_time_hour(t):
 def get_local_time_weekday(t):
     return datetime.fromtimestamp(t).astimezone(local_timezone).strftime("%A")
 
-def forecast_daily_str(wts:[Weather]):
+def forecast_daily_str(wts:List[Weather]) -> str:
     wstr = ""
     for wt in wts[1:]:
         wstr += "%s \n%s %s-%s°C 💨%sm/s\n"%(
@@ -97,7 +99,7 @@ def forecast_daily_str(wts:[Weather]):
         )
     return wstr
 
-def forecast_hourly_str(wts:[Weather]):
+def forecast_hourly_str(wts:List[Weather]) -> str:
     wstr = ""
     for wt in wts[1:13]:
         wstr += "%s %s %s°C 💨%sm/s\n"%(
