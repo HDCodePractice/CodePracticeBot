@@ -4,9 +4,12 @@
 
 现在支持的功能：
 
+weather - 查询天气 作者:hdcola
 rewards - 奖励大转盘 作者:hdcola
-admin - 管理机器人 作者:hdcola
 help - 查看帮助 作者:hdcola
+
+管理员功能：
+admin - 管理机器人 作者:hdcola
 
 ## 服务器环境
 
