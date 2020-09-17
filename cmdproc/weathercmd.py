@@ -90,12 +90,10 @@ def get_local_time_weekday(t):
 def forecast_daily_str(wts:List[Weather]) -> str:
     wstr = ""
     for wt in wts[1:]:
-        wstr += "%s \n%s %s-%s°C 💨%sm/s\n"%(
-            get_local_time_weekday(wt.ref_time),
-            weather_status[wt.weather_code][0],
-            wt.temperature('celsius')['min'],
-            wt.temperature('celsius')['max'],
-            wt.wind()['speed']
+        wstr += (
+            f"""{get_local_time_weekday(wt.ref_time)}
+            {weather_status[wt.weather_code][0]} {wt.temperature('celsius')['min']}-{wt.temperature('celsius')['max']}°C 💨{wt.wind()['speed']}m/s
+            """
         )
     return wstr
 
@@ -127,8 +125,10 @@ def get_weather(owm,lat,lon):
     one_call = mgr.one_call(lat=45.41, lon=-73.88)
     local_timezone = pytz.timezone(one_call.timezone)
     rstr = current_str(one_call.current)
-    rstr += "\n\n%s"% forecast_hourly_str(one_call.forecast_hourly)
-    rstr += "\n%s"% forecast_daily_str(one_call.forecast_daily)
+    rstr += (
+        f"\n\n{forecast_hourly_str(one_call.forecast_hourly)}"
+        f"\n{forecast_daily_str(one_call.forecast_daily)}"
+    )
     return rstr
 
 def weather(update : Update, context : CallbackContext):

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from telegram.ext import Updater
 import mysystemd
@@ -31,7 +30,7 @@ if __name__ == '__main__':
     try:
         CONFIG = config.load_config()
     except FileNotFoundError:
-        print("config.json not found.Generate a new configuration file in %s" % config.config_file)
+        print(f"config.json not found.Generate a new configuration file in {config.config_file}" )
         config.set_default()
         sys.exit(2)
 
@@ -42,7 +41,7 @@ if __name__ == '__main__':
     CONFIG['ID'] = me.id
     CONFIG['Username'] = '@' + me.username
     config.set_default()
-    print('Starting... (ID: ' + str(CONFIG['ID']) + ', Username: ' + CONFIG['Username'] + ')')
+    print(f"Starting... ID: {str(CONFIG['ID'])} , Username: {CONFIG['Username']}")
 
     # 在这里加入功能
     from cmdproc import startcmd,rewardscmd,admincmd,weathercmd,infocmd,penaltiescmd
