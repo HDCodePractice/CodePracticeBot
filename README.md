@@ -4,17 +4,24 @@
 
 现在支持的功能：
 
+```
 weather - 查询天气
 rewards - 奖励大转盘
 penalties - 处罚大转盘 作者:Sichengthebest
 help - 查看帮助
+```
 
 隐藏功能：
 
+```
 info - 查看消息的info，方便你在编程时来查找各种信息
+```
 
 管理员功能：
+
+```
 admin - 管理机器人 作者:hdcola
+```
 
 ## 服务器环境
 
