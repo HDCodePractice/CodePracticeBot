@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 import random
 from telegram.ext import CommandHandler, Dispatcher, updater
 def penalties(update,context):
