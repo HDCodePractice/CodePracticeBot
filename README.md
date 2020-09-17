@@ -6,6 +6,7 @@
 
 weather - 查询天气 作者:hdcola
 rewards - 奖励大转盘 作者:hdcola
+penalties - 处罚大转盘 作者:Sichengthebest
 help - 查看帮助 作者:hdcola
 
 隐藏功能：
