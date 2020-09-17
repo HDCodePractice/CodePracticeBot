@@ -38,4 +38,5 @@ def set_default():
     CONFIG.setdefault("Admin",[])       #管理员id
     CONFIG.setdefault("Admin_path","")  #Admin Shell Path
     CONFIG.setdefault("OWM_key","")     #OpenWeatherMap key
+    CONFIG.setdefault("Weather",{0:["name",0,0]}) # Weather记录的是 chatid:[lat=45.41,lon=-73.88]
     save_config()
