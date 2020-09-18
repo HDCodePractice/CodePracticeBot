@@ -6,7 +6,7 @@
 
 ```
 weather - 查询天气
-rewards - 奖励大转盘
+rewards - 奖励大转盘 作者:Sichengthebest
 penalties - 处罚大转盘 作者:Sichengthebest
 help - 查看帮助
 ```
