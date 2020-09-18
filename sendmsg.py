@@ -19,6 +19,13 @@ if __name__ == '__main__':
         print(help())
         sys.exit(2)
 
+    for opt, arg in opts:
+        if opt == '-h':
+            print(help())
+            sys.exit()
+        elif opt in ("-c","--config"):
+            PATH = arg
+
     config.config_file = os.path.join(PATH,"config.json")
     try:
         CONFIG = config.load_config()
