@@ -104,7 +104,7 @@ def setw_cmd(update : Update, context : CallbackContext):
             ws[chat]=[name,float(lat),float(lon)]
         if len(ws)  > 0 :
             config.CONFIG['Weather']=ws
-            config.save_config
+            config.save_config()
             update.message.reply_text(f"更新完成:{ws}")
         else:
             update.message.reply_text(f"内容为空")
