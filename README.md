@@ -25,6 +25,15 @@ setw - 使用chatif,name,lat,lon配置发送天气预报的目标
 getw - 查看现在的发送天气预报的配置
 ```
 
+发送消息功能：
+
+```
+sendmsg.py -w -c /path/to/configdir
+```
+
+* -w 发送天气预报。可以使用getw获取配置，使用setw设置配置
+
+
 ## 服务器环境
 
 ```
