@@ -90,9 +90,7 @@ def forecast_daily_str(wts:List[Weather]) -> str:
     wstr = ""
     for wt in wts[1:]:
         wstr += (
-            f"""{get_local_time_weekday(wt.ref_time)}
-            {weather_status[wt.weather_code][0]} {wt.temperature('celsius')['min']}-{wt.temperature('celsius')['max']}°C 💨{wt.wind()['speed']}m/s
-            """
+            f"{get_local_time_weekday(wt.ref_time)}\n{weather_status[wt.weather_code][0]} {wt.temperature('celsius')['min']}-{wt.temperature('celsius')['max']}°C 💨{wt.wind()['speed']}m/s\n"
         )
     return wstr
 

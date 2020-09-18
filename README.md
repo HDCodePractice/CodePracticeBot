@@ -21,6 +21,8 @@ info - 查看消息的info，方便你在编程时来查找各种信息
 
 ```
 admin - 管理机器人 作者:hdcola
+setw - 使用chatif,name,lat,lon配置发送天气预报的目标
+getw - 查看现在的发送天气预报的配置
 ```
 
 ## 服务器环境
