@@ -96,31 +96,7 @@ def admin_cmd(update : Update, context : CallbackContext):
         msg = help()
         update.message.reply_text(msg,reply_markup=init_replay_markup())
 
-def setw_cmd(update : Update, context : CallbackContext):
-    if update.message.from_user.id in config.CONFIG['Admin'] :
-        ws = {}
-        for t in context.args:
-            chat,name,lat,lon = t.split(",")
-            ws[chat]=[name,float(lat),float(lon)]
-        if len(ws)  > 0 :
-            config.CONFIG['Weather']=ws
-            config.save_config()
-            update.message.reply_text(f"更新完成:{ws}")
-        else:
-            update.message.reply_text(f"内容为空")
-           
-
-def getw_cmd(update : Update, context : CallbackContext):
-    ws = config.CONFIG['Weather']
-    msg = ""
-    for chat in ws.keys():
-        name,lat,lon = ws[chat]
-        msg +=f"{chat},{name},{lat},{lon} "
-    update.message.reply_text(msg)
-
 def add_dispatcher(dp: Dispatcher):
     dp.add_handler(CommandHandler(["admin"], admin_cmd))
     dp.add_handler(CallbackQueryHandler(admin_cmd_callback,pattern="^admin:[A-Za-z0-9_]*"))
-    dp.add_handler(CommandHandler(["setw"], setw_cmd))
-    dp.add_handler(CommandHandler(["getw"], getw_cmd))
     

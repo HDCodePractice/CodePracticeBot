@@ -134,8 +134,34 @@ def weather(update : Update, context : CallbackContext):
     update.message.reply_text(get_weather(owm,lat=45.41,lon=-73.88))
     
 
+def setw_cmd(update : Update, context : CallbackContext):
+    import config
+    if update.message.from_user.id in config.CONFIG['Admin'] :
+        ws = {}
+        for t in context.args:
+            chat,name,lat,lon = t.split(",")
+            ws[chat]=[name,float(lat),float(lon)]
+        if len(ws)  > 0 :
+            config.CONFIG['Weather']=ws
+            config.save_config()
+            update.message.reply_text(f"更新完成:{ws}")
+        else:
+            update.message.reply_text(f"内容为空")
+           
+
+def getw_cmd(update : Update, context : CallbackContext):
+    import config
+    ws = config.CONFIG['Weather']
+    msg = ""
+    for chat in ws.keys():
+        name,lat,lon = ws[chat]
+        msg +=f"{chat},{name},{lat},{lon} "
+    update.message.reply_text(msg)
+
 def add_dispatcher(dp: Dispatcher):
     dp.add_handler(CommandHandler(["weather"], weather))
+    dp.add_handler(CommandHandler(["setw"], setw_cmd))
+    dp.add_handler(CommandHandler(["getw"], getw_cmd))
 
 
 if __name__ == '__main__':
