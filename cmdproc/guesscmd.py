@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
+"""
+在群里猜数字
+"""
+
 import random
-from telegram.ext import Dispatcher,CommandHandler, ConversationHandler
+from telegram.ext import Dispatcher,CommandHandler
 
 n = random.randint(1,99)
 
