@@ -29,8 +29,6 @@ def help_city():
     这是小怪兽们为City群所完成的作品集合，也是大家平时使用的Bot，欢迎大家使用。
 
     /weather - 查询天气 
-    /rewards - 奖励大转盘 作者:Sichengthebest
-    /penalties - 处罚大转盘 作者:Sichengthebest
     /help - 查看帮助
     """
 
