@@ -6,6 +6,7 @@
 
 ```
 weather - 查询天气
+guess - 群体猜数
 help - 查看帮助
 rewards - 奖励大转盘 作者:Sichengthebest
 penalties - 处罚大转盘 作者:Sichengthebest
