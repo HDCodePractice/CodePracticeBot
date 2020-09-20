@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from ast import dump
 import config
 from telegram import Update
 from telegram.ext import Dispatcher,CommandHandler,CallbackContext
