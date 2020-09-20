@@ -44,4 +44,4 @@ def add_dispatcher(dp: Dispatcher):
     dp.add_handler(CommandHandler(["start","help"], start))
 
 def add_dispather_city(dp: Dispatcher):
-    dp.add_handler(CommandHandler(["start","help"], start))
+    dp.add_handler(CommandHandler(["start","help"], start_city))
