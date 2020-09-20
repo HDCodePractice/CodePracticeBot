@@ -1,5 +1,5 @@
 [Unit]
-Description=CodePractice Bot Service
+Description=City Bot Service
 
 [Service]
 ExecStart=/home/pi/py3/bin/python /home/pi/CodePracticeBot/citybotbot.py -c /home/pi/citybot
