@@ -81,6 +81,8 @@ def init_replay_markup():
 def help():
     msg = """
 可以点按按钮的必须是在配置文件里Admin的uid
+/setw chatid,name,经度纬度 ... 设置天气预报发送配置，支持多组
+/getw 显示现在的天气预报配置
 配置： 查看配置文件的内容
 更新： 从GitHub上更新Bot的代码
 重启： 重启Bot，应用新的代码或配置
@@ -92,7 +94,7 @@ def help():
 def admin_cmd(update : Update, context : CallbackContext):
     if update.message.from_user.id in config.CONFIG['Admin'] :
         msg = help()
-        update.message.reply_text(msg,reply_markup=init_replay_markup()) 
+        update.message.reply_text(msg,reply_markup=init_replay_markup())
 
 def add_dispatcher(dp: Dispatcher):
     dp.add_handler(CommandHandler(["admin"], admin_cmd))

@@ -8,10 +8,10 @@ import sys
 import config
 
 def help():
-    return "'bot.py -c <configpath>'"
+    return "'citybot.py -c <configpath>'"
 
 if __name__ == '__main__':
-    PATH = os.path.dirname(os.path.expanduser("~/.config/codepractice/"))
+    PATH = os.path.dirname(os.path.expanduser("~/.config/citybot/"))
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],"hc:",["config="])
@@ -44,14 +44,11 @@ if __name__ == '__main__':
     print(f"Starting... ID: {str(CONFIG['ID'])} , Username: {CONFIG['Username']}")
 
     # 在这里加入功能
-    from cmdproc import startcmd,rewardscmd,admincmd,weathercmd,infocmd,penaltiescmd,guesscmd
-    startcmd.add_dispatcher(dispatcher)
-    rewardscmd.add_dispatcher(dispatcher)
+    from cmdproc import startcmd,admincmd,weathercmd,infocmd
+    startcmd.add_dispather_city(dispatcher)
     admincmd.add_dispatcher(dispatcher)
     weathercmd.add_dispatcher(dispatcher)
     infocmd.add_dispatcher(dispatcher)
-    penaltiescmd.add_dispatcher(dispatcher)
-    guesscmd.add_dispatcher(dispatcher)
 
     updater.start_polling()
     print('Started')

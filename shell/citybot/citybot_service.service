@@ -1,0 +1,10 @@
+[Unit]
+Description=City Bot Service
+
+[Service]
+ExecStart=/home/pi/py3/bin/python /home/pi/CodePracticeBot/citybot.py -c /home/pi/citybot
+Restart=on-failure
+Type=notify
+
+[Install]
+WantedBy=default.target

@@ -6,9 +6,10 @@ Bot现在支持的功能：
 
 ```
 weather - 查询天气
-rewards - 奖励大转盘
-penalties - 处罚大转盘 作者:Sichengthebest
+guess - 群体猜数 作者：Noah
 help - 查看帮助
+rewards - 奖励大转盘 作者:Sichengthebest
+penalties - 处罚大转盘 作者:Sichengthebest
 ```
 
 隐藏功能：
@@ -21,7 +22,18 @@ info - 查看消息的info，方便你在编程时来查找各种信息
 
 ```
 admin - 管理机器人 作者:hdcola
+setw - 使用chatif,name,lat,lon配置发送天气预报的目标
+getw - 查看现在的发送天气预报的配置
 ```
+
+发送消息功能：
+
+```
+sendmsg.py -w -c /path/to/configdir
+```
+
+* -w 发送天气预报。可以使用getw获取配置，使用setw设置配置
+
 
 ## 服务器环境
 
