@@ -12,12 +12,18 @@ from telegram.ext import Dispatcher,CommandHandler,CallbackContext
 n = {}
 # 每个chat里每个人猜测的次数{chatid:{userid:[first_name,count]}}
 m = {}
+# 每个chat里猜中者的次数{chatid:{userid:[first_name,count]}}
+t = {}
 
 def gettop(chatid)->str:
     msg = ""
     if len(m[chatid]) > 0 :
         for key in m[chatid].keys():
-            msg += f"{m[chatid][key][0]} : {m[chatid][key][1]} \n"
+            msg += f"{m[chatid][key][0]} 本轮猜了 {m[chatid][key][1]} 次\n"
+    msg += "\n"
+    if len(t[chatid]) > 0:
+        for key in t[chatid].keys():
+            msg += f"{t[chatid][key][0]} 过去猜中 {t[chatid][key][1]} 次\n"
     return msg
 
 def help(chatid)->str:
@@ -43,6 +49,8 @@ def guessing(update : Update, context : CallbackContext):
         m[chatid]={}
     if not (chatid in n):
         n[chatid]=random.randint(1,99)
+    if not (chatid in t):
+        t[chatid]={}
 
     if len(context.args) == 0:
         update.message.reply_text(help(chatid))
@@ -64,10 +72,15 @@ def guessing(update : Update, context : CallbackContext):
     if a == n[chatid] :
         count -=1
         m[chatid][user.id] = [user.first_name,count]
-        msg += f"猜对了！{user.first_name}用了{count}开始新的一轮猜测！\nAyyy You guessed it! Start a new round of guess!\n\n"
+        msg += f"猜对了！{user.first_name}用了{count}次！又开始新的一轮猜测！\nAyyy You guessed it! Start a new round of guess!\n\n"
         for key in m[chatid].keys():
             msg += f"{m[chatid][key][0]} : {m[chatid][key][1]} \n"
-        m = {}
+        m[chatid] = {}
+        tcount = 0
+        if user.id in t[chatid].keys():
+            tcount = t[chatid][user.id][1]
+        tcount += 1
+        t[chatid][user.id]=[user.first_name,tcount]
         n[chatid] = random.randint(1,99)
     elif a > n[chatid] :
         msg += f"{user.first_name}猜大了！快重猜！It's big! Guess again!"
