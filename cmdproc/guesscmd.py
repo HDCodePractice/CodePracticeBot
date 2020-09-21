@@ -11,6 +11,12 @@ from telegram.ext import Dispatcher,CommandHandler,CallbackContext
 n = random.randint(1,99)
 m = {}
 
+def gettop()->str:
+    msg = ""
+    for key in m.keys():
+        msg += f"{m[key][0]} : {m[key][1]} \n"
+    return msg
+
 def help()->str:
     msg =  """
 猜一个0-100之间的数字。You guessed a number from 0 - 100.
@@ -18,9 +24,8 @@ def help()->str:
 /gess number 输入number猜数字，看谁用的次数最少。Enter number and see who uses it the least often.
 
 """
-    for key in m.keys():
-        msg += f"{m[key][0]} : {m[key][1]} \n"
-    msg += "\nAuthorised By Noah <3\n作者：Noah"
+
+    msg += gettop() + "\nAuthorised By Noah <3\n作者：Noah"
     return msg
 
 
@@ -55,9 +60,10 @@ def guessing(update : Update, context : CallbackContext):
         m = {}
         n = random.randint(1,99)
     elif a > n :
-        msg += f"猜大了！{user.first_name}用了{count}次！快重猜！It's big! Guess again!"
+        msg += f"{user.first_name}猜大了！快重猜！It's big! Guess again!"
     elif a < n :
-        msg += f"猜小了！{user.first_name}用了{count}次！重猜！It's small! Guess again!"
+        msg += f"{user.first_name}猜小了！快重猜！It's small! Guess again!"
+    msg += "\n\n" + gettop()
     msg += "\nAuthorised By Noah <3\n作者：Noah"
     update.message.reply_text(msg)
 
