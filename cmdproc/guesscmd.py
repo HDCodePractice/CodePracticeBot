@@ -34,13 +34,18 @@ def guessing(update : Update, context : CallbackContext):
         return
     count = 0
 
+    b = context.args[0]
+    if not b.isdigit():
+        msg = "糟糕，那不是一个数字！ur bad thats not a number!"
+        update.message.reply_text(msg)
+        return
+    
     if user.id in m.keys():
         count = m[user.id][1]
-    
     count +=1
     m[user.id] = [user.first_name,count]
 
-    a = int(context.args[0])
+    a = int(b)
     if a == n :
         count -=1
         m[user.id] = [user.first_name,count]
@@ -53,8 +58,6 @@ def guessing(update : Update, context : CallbackContext):
         msg += f"猜大了！{user.first_name}用了{count}次！快重猜！It's big! Guess again!"
     elif a < n :
         msg += f"猜小了！{user.first_name}用了{count}次！重猜！It's small! Guess again!"
-    elif a != int :
-        msg += "ur bad thats not a number"
     msg += "\nAuthorised By Noah <3\n作者：Noah"
     update.message.reply_text(msg)
 
