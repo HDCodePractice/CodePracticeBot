@@ -8,16 +8,19 @@ import random
 from telegram import Update,User
 from telegram.ext import Dispatcher,CommandHandler,CallbackContext
 
-n = random.randint(1,99)
+# 存储每个chat有不同的随机数{chatid:number}
+n = {}
+# 每个chat里每个人猜测的次数{chatid:{userid:[first_name,count]}}
 m = {}
 
-def gettop()->str:
+def gettop(chatid)->str:
     msg = ""
-    for key in m.keys():
-        msg += f"{m[key][0]} : {m[key][1]} \n"
+    if len(m[chatid]) > 0 :
+        for key in m[chatid].keys():
+            msg += f"{m[chatid][key][0]} : {m[chatid][key][1]} \n"
     return msg
 
-def help()->str:
+def help(chatid)->str:
     msg =  """
 猜一个0-100之间的数字。You guessed a number from 0 - 100.
 /gess 查看现在的状态和获取帮助。Check your current status and get help.
@@ -25,7 +28,7 @@ def help()->str:
 
 """
 
-    msg += gettop() + "\nAuthorised By Noah <3\n作者：Noah"
+    msg += gettop(chatid) + "\nAuthorised By Noah <3\n作者：Noah"
     return msg
 
 
@@ -33,9 +36,16 @@ def guessing(update : Update, context : CallbackContext):
     global n,m
     msg = ""
     user : User = update.effective_user
+    chatid = update.effective_chat.id
+    
+    # 如果这个chat没有出现过，就增加它
+    if not (chatid in m) :
+        m[chatid]={}
+    if not (chatid in n):
+        n[chatid]=random.randint(1,99)
 
     if len(context.args) == 0:
-        update.message.reply_text(help())
+        update.message.reply_text(help(chatid))
         return
     count = 0
 
@@ -45,25 +55,25 @@ def guessing(update : Update, context : CallbackContext):
         update.message.reply_text(msg)
         return
     
-    if user.id in m.keys():
-        count = m[user.id][1]
+    if user.id in m[chatid].keys():
+        count = m[chatid][user.id][1]
     count +=1
-    m[user.id] = [user.first_name,count]
+    m[chatid][user.id] = [user.first_name,count]
 
     a = int(b)
-    if a == n :
+    if a == n[chatid] :
         count -=1
-        m[user.id] = [user.first_name,count]
+        m[chatid][user.id] = [user.first_name,count]
         msg += f"猜对了！{user.first_name}用了{count}开始新的一轮猜测！\nAyyy You guessed it! Start a new round of guess!\n\n"
-        for key in m.keys():
-            msg += f"{m[key][0]} : {m[key][1]} \n"
+        for key in m[chatid].keys():
+            msg += f"{m[chatid][key][0]} : {m[chatid][key][1]} \n"
         m = {}
-        n = random.randint(1,99)
-    elif a > n :
+        n[chatid] = random.randint(1,99)
+    elif a > n[chatid] :
         msg += f"{user.first_name}猜大了！快重猜！It's big! Guess again!"
-    elif a < n :
+    elif a < n[chatid] :
         msg += f"{user.first_name}猜小了！快重猜！It's small! Guess again!"
-    msg += "\n\n" + gettop()
+    msg += "\n\n" + gettop(chatid)
     msg += "\nAuthorised By Noah <3\n作者：Noah"
     update.message.reply_text(msg)
 
