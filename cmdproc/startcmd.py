@@ -7,6 +7,7 @@
 import config
 from telegram import Update
 from telegram.ext import Dispatcher,CommandHandler,CallbackContext
+from cmdproc import rpsgame
 
 def help():
     return """
@@ -22,7 +23,7 @@ def help():
 
     管理员用命令：
     /admin 管理机器人
-    """
+    """.replace("-","\-")
 
 def help_city():
     return """
@@ -30,13 +31,16 @@ def help_city():
 
     /weather - 查询天气 
     /help - 查看帮助
-    """
+    """.replace("-","\-")
 
 def start(update : Update, context : CallbackContext):
-    update.message.reply_text(help())
+    msg = rpsgame.start(update,context)
+    if not msg:
+        msg = help()
+    update.message.reply_markdown_v2(msg)
 
 def start_city(update : Update, context : CallbackContext):
-    update.message.reply_text(help_city())
+    update.message.reply_markdown_v2(help_city())
 
 def add_dispatcher(dp: Dispatcher):
     dp.add_handler(CommandHandler(["start","help"], start))
