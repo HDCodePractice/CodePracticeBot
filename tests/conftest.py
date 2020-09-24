@@ -33,10 +33,10 @@ from telegram.ext import Dispatcher, JobQueue, Updater, BaseFilter, Defaults
 from telegram.error import BadRequest
 from tests.bots import get_bot
 
-GITHUB_ACTION = os.getenv('GITHUB_ACTION', False)
+# GITHUB_ACTION = os.getenv('GITHUB_ACTION', False)
 
-if GITHUB_ACTION:
-    pytest_plugins = ['tests.plugin_github_group']
+# if GITHUB_ACTION:
+#     pytest_plugins = ['tests.plugin_github_group']
 
 # THIS KEY IS OBVIOUSLY COMPROMISED
 # DO NOT USE IN PRODUCTION!
