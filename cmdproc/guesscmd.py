@@ -29,8 +29,8 @@ def gettop(chatid)->str:
 def help(chatid)->str:
     msg =  """
 猜一个0-100之间的数字。You guessed a number from 0 - 100.
-/gess 查看现在的状态和获取帮助。Check your current status and get help.
-/gess number 输入number猜数字，看谁用的次数最少。Enter number and see who uses it the least often.
+/guess 查看现在的状态和获取帮助。Check your current status and get help.
+/guess *your number here* 输入数字，看谁用的次数最少。Enter number and see who uses it the least often.
 
 """
 
