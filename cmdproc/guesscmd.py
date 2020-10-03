@@ -60,6 +60,7 @@ def guessing(update : Update, context : CallbackContext):
 
     b = context.args[0]
     if not b.isdigit():
+        tcount += 1
         msg = "糟糕，那不是一个数字！ur bad thats not a number!"
         update.message.reply_text(msg)
         return
