@@ -72,7 +72,6 @@ def guessing(update : Update, context : CallbackContext):
 
     a = int(b)
     if a == n[chatid] :
-        count -=1
         m[chatid][user.id] = [user.first_name,count]
         msg += f"猜对了！{user.first_name}用了{count}次！又开始新的一轮猜测！\nAyyy You guessed it! Start a new round of guess!\n\n"
         for key in m[chatid].keys():
