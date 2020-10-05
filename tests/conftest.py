@@ -33,7 +33,7 @@ from telegram.ext import Dispatcher, JobQueue, Updater, BaseFilter, Defaults
 from telegram.error import BadRequest
 from tests.bots import get_bot
 
-# GITHUB_ACTION = os.getenv('GITHUB_ACTION', False)
+GITHUB_ACTION = os.getenv('GITHUB_ACTION', False)
 
 # if GITHUB_ACTION:
 #     pytest_plugins = ['tests.plugin_github_group']
@@ -183,7 +183,7 @@ def make_message(text, **kwargs):
     :return: a (fake) ``telegram.Message``
     """
     return Message(message_id=1,
-                   from_user=kwargs.pop('user', User(id=1, first_name='', is_bot=False)),
+                   from_user=kwargs.pop('user', User(id=1, first_name='first_name', is_bot=False,username='username')),
                    date=kwargs.pop('date', DATE),
                    chat=kwargs.pop('chat', Chat(id=1, type='')),
                    text=text,
@@ -198,6 +198,7 @@ def make_command_message(text, **kwargs):
     Mimics the Telegram API in that it identifies commands within the message
     and tags the returned ``Message`` object with the appropriate ``MessageEntity``
     tag (but it does this only for commands).
+
     :param text: (str) message text containing (or not) the command
     :return: a (fake) ``telegram.Message`` containing only the command
     """
@@ -284,11 +285,13 @@ def expect_bad_request(func, message, reason):
     """
     Wrapper for testing bot functions expected to result in an :class:`telegram.error.BadRequest`.
     Makes it XFAIL, if the specified error message is present.
+
     Args:
         func: The callable to be executed.
         message: The expected message of the bad request error. If another message is present,
             the error will be reraised.
         reason: Explanation for the XFAIL.
+
     Returns:
         On success, returns the return value of :attr:`func`
     """
