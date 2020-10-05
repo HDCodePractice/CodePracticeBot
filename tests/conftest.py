@@ -237,6 +237,11 @@ def make_command_update(message, edited=False, **kwargs):
     """
     return make_message_update(message, make_command_message, edited, **kwargs)
 
+def make_callback_query_update(query_data,**kwargs):
+    user = User(id=1, first_name='first_name', is_bot=False,username='username')
+    callback_query = CallbackQuery(1,user,"1",data=query_data)
+    return Update(0,callback_query=callback_query)
+
 
 @pytest.fixture(scope='function')
 def mock_filter():

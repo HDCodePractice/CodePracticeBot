@@ -29,6 +29,7 @@ guessResult = {}
 
 start_buttons = [
     {
+        "guess_start:add":"➕加入游戏",
         "guess_start:start":"▶️开始游戏",
         "guess_start:score":"ℹ️查看成绩"
     }
@@ -67,7 +68,8 @@ def guess_start_callback(update : Update, context : CallbackContext):
     query = update.callback_query
     user : User = update.effective_user
     chatid = update.effective_chat.id
-    if query.data == "guess_start:start":
+    if query.data == "guess_start:add":
+        # 处理按下 guess_start:add 按钮
         if user.id in guessResult[chatid]['state']:
             query.answer("你已经加入游戏了！You're in the game!",show_alert=True)
             return
