@@ -1,96 +1,94 @@
 #!/usr/bin/env python3
 
 """
-在群里猜数字
+在群里猜大小
 """
 
 import random
-from telegram import Update,User
-from telegram.ext import Dispatcher,CommandHandler,CallbackContext
+from telegram import Update,User,InlineKeyboardButton,InlineKeyboardMarkup
+from telegram.ext import Dispatcher,CommandHandler,CallbackContext,CallbackQueryHandler
 
-# 存储每个chat有不同的随机数{chatid:number}
-n = {}
-# 每个chat里每个人猜测的次数{chatid:{userid:[first_name,count]}}
-m = {}
-# 每个chat里猜中者的次数{chatid:{userid:[first_name,count]}}
-t = {}
 
-def gettop(chatid)->str:
-    msg = ""
-    if len(m[chatid]) > 0 :
-        for key in m[chatid].keys():
-            msg += f"{m[chatid][key][0]} 本轮猜了 {m[chatid][key][1]} 次\n"
-    msg += "\n"
-    if len(t[chatid]) > 0:
-        for key in t[chatid].keys():
-            msg += f"{t[chatid][key][0]} 过去猜中 {t[chatid][key][1]} 次\n"
+"""
+存储游戏的所有数据
+{
+    "chatid":{
+        "histore":"dxdxdx"，        历史
+        "score":{                   每个人的成绩
+            uid:[first_name,12]
+        },
+        "state":{                   游戏状态
+            uid:[first_name,"d or x"]
+        },
+        "step":"start"
+    }
+}
+"""
+guessResult = {}
+
+
+start_buttons = [
+    {
+        "guess_start:start":"▶️开始游戏",
+        "guess_start:score":"ℹ️查看成绩"
+    }
+]
+
+def start_play_list(chatid)->str:
+    # 开始参与时的玩家列表
+    global guessResult
+    # 如果这个chatid之前没有记录过数据
+    if not (chatid in guessResult):
+        guessResult[chatid] = {"histore":"","score":{},"state":{},"step":"start"}
+    
+    msg = "\n玩家列表:"
+    for key in guessResult[chatid]['state'].keys():
+        msg += f"\n{guessResult[chatid]['state'][key][0]}"
     return msg
 
 def help(chatid)->str:
     msg =  """
-猜一个0-100之间的数字。You guessed a number from 0 - 100.
-/guess 查看现在的状态和获取帮助。Check your current status and get help.
-/guess *your number here* 输入数字，看谁用的次数最少。Enter number and see who uses it the least often.
-Creator: hdcola, Sichengthebest
-作者：hdcola, Sichengthebest
+猜大小 Noah&hdcola
+三个1到7的数字之和，10及以下是小，11及以上是大。
+The sum of three numbers from 1 to 7, 10 and below is small and 11 and above is large.
 """
-
-    msg += gettop(chatid) + "\nAuthorised By Noah <3\n作者：Noah"
+    msg += start_play_list(chatid)
     return msg
 
-
-def guessing(update : Update, context : CallbackContext):
-    global n,m
-    msg = ""
+def guess_start(update : Update, context : CallbackContext):
+    # 处理/guess命令，这时处在游戏开始阶段
+    global guessResult
     user : User = update.effective_user
     chatid = update.effective_chat.id
-    
-    # 如果这个chat没有出现过，就增加它
-    if not (chatid in m) :
-        m[chatid]={}
-    if not (chatid in n):
-        n[chatid]=random.randint(1,99)
-    if not (chatid in t):
-        t[chatid]={}
+    update.message.reply_text(help(chatid),reply_markup=init_replay_markup(start_buttons))
 
-    if len(context.args) == 0:
-        update.message.reply_text(help(chatid))
-        return
-    count = 0
+def guess_start_callback(update : Update, context : CallbackContext):
+    global guessResult
+    query = update.callback_query
+    user : User = update.effective_user
+    chatid = update.effective_chat.id
+    if query.data == "guess_start:start":
+        if user.id in guessResult[chatid]['state']:
+            query.answer("你已经加入游戏了！You're in the game!",show_alert=True)
+            return
+        else:
+            guessResult[chatid]['state'][user.id]=[user.first_name,""]
+            query.edit_message_text(text=help(chatid),reply_markup=init_replay_markup(start_buttons))
 
-    b = context.args[0]
-    if not b.isdigit():
-        msg = "糟糕，那不是一个数字！ur bad thats not a number!"
-        update.message.reply_text(msg)
-        return
-    
-    if user.id in m[chatid].keys():
-        count = m[chatid][user.id][1]
-    count +=1
-    m[chatid][user.id] = [user.first_name,count]
+def init_buttons(cmds):
+    buttons = []
+    for cmd in cmds:
+        button = []
+        for key in cmd:
+            button.append(InlineKeyboardButton(cmd[key], callback_data=key ) )
+        buttons.append(button)
+    return buttons
 
-    a = int(b)
-    if a == n[chatid] :
-        count -=1
-        m[chatid][user.id] = [user.first_name,count]
-        msg += f"猜对了！{user.first_name}用了{count}次！又开始新的一轮猜测！\nAyyy You guessed it! Start a new round of guess!\n\n"
-        for key in m[chatid].keys():
-            msg += f"{m[chatid][key][0]} : {m[chatid][key][1]} \n"
-        m[chatid] = {}
-        tcount = 0
-        if user.id in t[chatid].keys():
-            tcount = t[chatid][user.id][1]
-        tcount += 1
-        t[chatid][user.id]=[user.first_name,tcount]
-        n[chatid] = random.randint(1,99)
-    elif a > n[chatid] :
-        msg += f"{user.first_name}猜大了！快重猜！It's big! Guess again!"
-    elif a < n[chatid] :
-        msg += f"{user.first_name}猜小了！快重猜！It's small! Guess again!"
-    msg += "\n\n" + gettop(chatid)
-    msg += "\nAuthorised By Noah <3\n作者：Noah"
-    update.message.reply_text(msg)
+def init_replay_markup(cmds):
+    return InlineKeyboardMarkup(init_buttons(cmds))
 
 def add_dispatcher(dp:Dispatcher):
-    guess_handler = CommandHandler('guess',guessing)
+    guess_handler = CommandHandler('guess',guess_start)
+    # 将所有guess_start开头的按钮处理交由guess_start_callback来进行
+    dp.add_handler(CallbackQueryHandler(guess_start_callback,pattern="^guess_start:[A-Za-z0-9_]*"))
     dp.add_handler(guess_handler)
