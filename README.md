@@ -1,6 +1,7 @@
 # CodePracticeBot
 
 ![GitHub TestAction](https://github.com/HDCodePractice/CodePracticeBot/workflows/GitHub%20Test/badge.svg)
+[![codecov](https://codecov.io/gh/HDCodePractice/CodePracticeBot/branch/master/graph/badge.svg?token=H9FQFHOSVZ)](https://codecov.io/gh/HDCodePractice/CodePracticeBot/)
 
 这是我们在线上正式运行的Bot机器人，机器人的代码大部分来自于小组成员。欢迎大家提交更有意思的PR。
 
