@@ -117,11 +117,17 @@ def guess_play_callback(update : Update, context : CallbackContext):
     user : User = update.effective_user
     chatid = update.effective_chat.id
     if query.data == "guess_play:x":
-        guessResult[chatid]['state'][user.id]=[user.first_name,"x"]
-        query.answer("你选择了小")
+        if guessResult[chatid]['state'][user.id]==[user.first_name,"x"]:
+            query.answer("你已经选择了小")
+        else:
+            guessResult[chatid]['state'][user.id]=[user.first_name,"x"]
+            query.answer("你选择了小")
     elif query.data == "guess_play:d":
-        guessResult[chatid]['state'][user.id]=[user.first_name,"d"]
-        query.answer("你选择了大")
+        if guessResult[chatid]['state'][user.id]==[user.first_name,"d"]:
+            query.answer("你已经选择了大")
+        else:
+            guessResult[chatid]['state'][user.id]=[user.first_name,"d"]
+            query.answer("你选择了大")
     query.edit_message_text(text=help(chatid),reply_markup=init_replay_markup(play_buttons))
 
 def init_buttons(cmds):
