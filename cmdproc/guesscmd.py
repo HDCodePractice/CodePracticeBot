@@ -56,7 +56,7 @@ def start_play_list(chatid)->str:
 def play_play_list(chatid)->str:
     # 游戏进行中的玩家列表
     global guessResult
-    
+
     msg = "\n玩家列表:"
     for key in guessResult[chatid]['state'].keys():
         if guessResult[chatid]['state'][key][1] == "d":
@@ -119,12 +119,14 @@ def guess_play_callback(update : Update, context : CallbackContext):
     if query.data == "guess_play:x":
         if guessResult[chatid]['state'][user.id]==[user.first_name,"x"]:
             query.answer("你已经选择了小")
+            return
         else:
             guessResult[chatid]['state'][user.id]=[user.first_name,"x"]
             query.answer("你选择了小")
     elif query.data == "guess_play:d":
         if guessResult[chatid]['state'][user.id]==[user.first_name,"d"]:
             query.answer("你已经选择了大")
+            return
         else:
             guessResult[chatid]['state'][user.id]=[user.first_name,"d"]
             query.answer("你选择了大")
