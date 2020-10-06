@@ -104,6 +104,7 @@ def guess_start_callback(update : Update, context : CallbackContext):
         else:
             guessResult[chatid]['state'][user.id]=[user.first_name,""]
             query.edit_message_text(text=help(chatid),reply_markup=init_replay_markup(start_buttons))
+            query.answer("加入游戏成功！Join the game successfully!")
     elif query.data == "guess_start:start":
         # 处理按下 guess_start:start 按钮
         guessResult[chatid]['step']="play"
