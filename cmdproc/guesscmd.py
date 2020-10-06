@@ -108,8 +108,8 @@ def guess_start_callback(update : Update, context : CallbackContext):
     elif query.data == "guess_start:start":
         # 处理按下 guess_start:start 按钮
         guessResult[chatid]['step']="play"
-        query.answer()
         query.edit_message_text(text=help(chatid),reply_markup=init_replay_markup(play_buttons))
+        query.answer("开局啦")
 
 def guess_play_callback(update : Update, context : CallbackContext):
     global guessResult
