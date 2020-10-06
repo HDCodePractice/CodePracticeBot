@@ -237,10 +237,12 @@ def make_command_update(message, edited=False, **kwargs):
     """
     return make_message_update(message, make_command_message, edited, **kwargs)
 
-def make_callback_query_update(query_data,**kwargs):
-    user = User(id=1, first_name='first_name', is_bot=False,username='username')
-    callback_query = CallbackQuery(1,user,"1",data=query_data)
-    return Update(0,callback_query=callback_query)
+def make_callback_query_update(message,query_data,message_factory=make_message, edited=False,**kwargs):
+    if not isinstance(message, Message):
+        message = message_factory(message, **kwargs)
+    callback_query = CallbackQuery(1,message.from_user,"1",message=message,data=query_data)
+    update_kwargs = {'callback_query':callback_query}
+    return Update(0,**update_kwargs)
 
 
 @pytest.fixture(scope='function')
