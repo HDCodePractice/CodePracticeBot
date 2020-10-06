@@ -64,7 +64,7 @@ def test_start(monkeypatch):
             assert args[0] == "你已经选择了小"
 
     def guess_play_edit_message_text(*args, **kwargs):
-        print(f"args:{args}\nkwargs:{kwargs}\n\n")
+        # print(f"args:{args}\nkwargs:{kwargs}\n\n")
         if step == "d":
             assert "first_name:🔼大" in kwargs['text']
             assert kwargs['reply_markup'] == guesscmd.init_replay_markup(guesscmd.play_buttons)
