@@ -4,7 +4,7 @@
 在群里猜大小
 """
 
-import random
+from random import randint
 from telegram import Update,User,InlineKeyboardButton,InlineKeyboardMarkup
 from telegram.ext import Dispatcher,CommandHandler,CallbackContext,CallbackQueryHandler
 
@@ -44,6 +44,14 @@ play_buttons = [
     }
 ]
 
+def check_chatid(chatid):
+    # 如果这个chatid之前没有记录过数据
+    if not (chatid in guessResult):
+        guessResult[chatid] = {"histore":"","score":{},"state":{},"step":"start"}
+        return False
+    else:
+        return True
+
 def start_play_list(chatid)->str:
     # 开始参与时的玩家列表
     global guessResult
@@ -51,6 +59,7 @@ def start_play_list(chatid)->str:
     msg = "\n玩家列表:"
     for key in guessResult[chatid]['state'].keys():
         msg += f"\n{guessResult[chatid]['state'][key][0]}"
+    msg += f"\n\n30局走势:{guessResult[chatid]['histore']}"
     return msg
 
 def play_play_list(chatid)->str:
@@ -65,28 +74,67 @@ def play_play_list(chatid)->str:
             msg += f"\n{guessResult[chatid]['state'][key][0]}:🔽小"
         else:
             msg += f"\n{guessResult[chatid]['state'][key][0]}:🔴未完成"
+    msg += f"\n\n30局走势:{guessResult[chatid]['histore']}"
+    return msg
+
+def gen_end_result(chatid)->str:
+    # 得出一局的结果，如： 1+3+3=7
+    global guessResult
+
+    msg = "结算结果/Settlement results:"
+    sum = 0
+    for i in range(3):
+        n = randint(1,6)
+        sum += n
+        if i == 2:
+            msg += f"{n}="
+        else:
+            msg += f"{n}+"
+    msg += f"{sum}\n"
+
+    if len(guessResult[chatid]['histore']) >= 30:
+        guessResult[chatid]['histore'] = guessResult[chatid]['histore'][0:29]
+    if sum <= 10:
+        guessResult[chatid]['histore'] += 'x'
+        sum ='x'
+    else:
+        guessResult[chatid]['histore'] += 'd'
+        sum = 'd'
+    return msg
+
+def end_play_list(chatid)->str:
+    # 这是结算时的玩家列表
+
+
+    msg = "\n玩家列表:"
+    for key in guessResult[chatid]['state'].keys():
+        if guessResult[chatid]['state'][key][1] == sum:
+            msg += f"\n{guessResult[chatid]['state'][key][0]}:胜利 😊"
+        else:
+            msg += f"\n{guessResult[chatid]['state'][key][0]}:失败 😱"
     return msg
 
 def help(chatid)->str:
     msg =  """
 猜大小 Noah&hdcola
-三个1到7的数字之和，10及以下是小，11及以上是大。
-The sum of three numbers from 1 to 7, 10 and below is small and 11 and above is large.
+三个1到6的数字之和，10及以下是小，11及以上是大。
+The sum of three numbers from 1 to 6, 10 and below is small and 11 and above is large.
 """
     if guessResult[chatid]['step']=="start":
         msg += start_play_list(chatid)
     elif guessResult[chatid]['step']=="play":
         msg += play_play_list(chatid)
+    elif guessResult[chatid]['step']=="end":
+        msg += end_play_list(chatid)
     return msg
+
 
 def guess_start(update : Update, context : CallbackContext):
     # 处理/guess命令，这时处在游戏开始阶段
     global guessResult
     chatid = update.effective_chat.id
-    # 如果这个chatid之前没有记录过数据
-    if not (chatid in guessResult):
-        guessResult[chatid] = {"histore":"","score":{},"state":{},"step":"start"}
-    elif guessResult[chatid]["step"] == "":
+    check_chatid(chatid)
+    if guessResult[chatid]["step"] == "":
         guessResult[chatid]["step"] = "start"
     
     update.message.reply_text(help(chatid),reply_markup=init_replay_markup(start_buttons))
@@ -96,6 +144,7 @@ def guess_start_callback(update : Update, context : CallbackContext):
     query = update.callback_query
     user : User = update.effective_user
     chatid = update.effective_chat.id
+    check_chatid(chatid)
     if query.data == "guess_start:add":
         # 处理按下 guess_start:add 按钮
         if user.id in guessResult[chatid]['state']:
@@ -116,6 +165,7 @@ def guess_play_callback(update : Update, context : CallbackContext):
     query = update.callback_query
     user : User = update.effective_user
     chatid = update.effective_chat.id
+    check_chatid(chatid)
     if query.data == "guess_play:x":
         if guessResult[chatid]['state'][user.id]==[user.first_name,"x"]:
             query.answer("你已经选择了小")
@@ -130,6 +180,11 @@ def guess_play_callback(update : Update, context : CallbackContext):
         else:
             guessResult[chatid]['state'][user.id]=[user.first_name,"d"]
             query.answer("你选择了大")
+    elif query.data == "guess_play:do":
+        query.answer("结算结果")
+        guessResult[chatid]['step']="end"
+        query.edit_message_text(text=help(chatid))
+        return
     query.edit_message_text(text=help(chatid),reply_markup=init_replay_markup(play_buttons))
 
 def init_buttons(cmds):

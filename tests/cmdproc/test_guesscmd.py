@@ -3,6 +3,30 @@ import pytest
 from cmdproc import guesscmd
 from tests.conftest import make_callback_query_update, make_command_update
 
+def test_gen_end_result():
+    assert guesscmd.check_chatid(1) == False
+    assert guesscmd.check_chatid(1) == True
+    
+    
+    for i in range(30):
+        msg = guesscmd.gen_end_result(1)
+        # print(msg)
+        assert len(msg.split('+'))==3
+        assert len(msg.split('='))==2
+        # print(guesscmd.guessResult[1]['histore'])
+        assert len(guesscmd.guessResult[1]['histore']) == i + 1 
+    
+    assert len(msg.split('+'))==3
+    assert len(msg.split('='))==2
+    # print(guesscmd.guessResult[1]['histore'])
+    assert len(guesscmd.guessResult[1]['histore']) == 30
+
+    assert len(msg.split('+'))==3
+    assert len(msg.split('='))==2
+    # print(guesscmd.guessResult[1]['histore'])
+    assert len(guesscmd.guessResult[1]['histore']) == 30
+
+
 def test_start(monkeypatch):
     # 测试发出/start命令
     def reply_text(*args, **kwargs):
