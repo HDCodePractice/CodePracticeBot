@@ -128,6 +128,7 @@ If you think the sum is 11 and above , you click 🔼.
     elif guessResult[chatid]['step']=="end":
         msg += gen_end_result(chatid)
         msg += end_play_list(chatid)
+    msg += "\n\nContributor:hdcola,Sicheng,Noah"
     return msg
 
 
