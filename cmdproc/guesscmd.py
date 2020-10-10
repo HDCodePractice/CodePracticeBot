@@ -117,8 +117,9 @@ def help(chatid)->str:
     # print(guessResult)
     msg =  """
 猜大小 Noah&hdcola
-三个1到6的数字之和，10及以下是小，11及以上是大。
-The sum of three numbers from 1 to 6, 10 and below is small and 11 and above is large.
+三个1到6的数字之和，10及以下点小，11及以上点大。
+The sum of three numbers from 1 to 6, if you think the sum is 10 and below , you click 🔽
+If you think the sum is 11 and above , you click 🔼.
 """
     if guessResult[chatid]['step']=="start":
         msg += start_play_list(chatid)
@@ -155,7 +156,7 @@ def guess_start_callback(update : Update, context : CallbackContext):
         else:
             guessResult[chatid]['state'][user.id]=[user.first_name,""]
             query.edit_message_text(text=help(chatid),reply_markup=init_replay_markup(start_buttons))
-            query.answer("加入游戏成功！Join the game successfully!")
+            query.answer("加入游戏成功！You joined the game successfully!")
     elif query.data == "guess_start:start":
         # 处理按下 guess_start:start 按钮
         guessResult[chatid]['step']="play"
