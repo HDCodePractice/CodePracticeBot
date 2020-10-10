@@ -16,11 +16,12 @@ def test_gen_end_result():
         # print(guesscmd.guessResult[1]['histore'])
         assert len(guesscmd.guessResult[1]['histore']) == i + 1 
     
+    msg = guesscmd.gen_end_result(1)
     assert len(msg.split('+'))==3
     assert len(msg.split('='))==2
     # print(guesscmd.guessResult[1]['histore'])
     assert len(guesscmd.guessResult[1]['histore']) == 30
-
+    msg = guesscmd.gen_end_result(1)
     assert len(msg.split('+'))==3
     assert len(msg.split('='))==2
     # print(guesscmd.guessResult[1]['histore'])

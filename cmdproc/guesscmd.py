@@ -44,6 +44,31 @@ play_buttons = [
     }
 ]
 
+def gen_end_result(chatid)->str:
+    # 得出一局的结果，如： 1+3+3=7
+    global guessResult
+
+    msg = "结算结果/Settlement results:"
+    sum = 0
+    for i in range(3):
+        n = randint(1,6)
+        sum += n
+        if i == 2:
+            msg += f"{n}="
+        else:
+            msg += f"{n}+"
+    msg += f"{sum}\n"
+
+    if len(guessResult[chatid]['histore']) >= 30:
+        guessResult[chatid]['histore'] = guessResult[chatid]['histore'][0:29]
+    if sum <= 10:
+        guessResult[chatid]['histore'] += 'x'
+        sum ='x'
+    else:
+        guessResult[chatid]['histore'] += 'd'
+        sum = 'd'
+    return msg
+
 def check_chatid(chatid):
     # 如果这个chatid之前没有记录过数据
     if not (chatid in guessResult):
@@ -77,44 +102,19 @@ def play_play_list(chatid)->str:
     msg += f"\n\n30局走势:{guessResult[chatid]['histore']}"
     return msg
 
-def gen_end_result(chatid)->str:
-    # 得出一局的结果，如： 1+3+3=7
-    global guessResult
-
-    msg = "结算结果/Settlement results:"
-    sum = 0
-    for i in range(3):
-        n = randint(1,6)
-        sum += n
-        if i == 2:
-            msg += f"{n}="
-        else:
-            msg += f"{n}+"
-    msg += f"{sum}\n"
-
-    if len(guessResult[chatid]['histore']) >= 30:
-        guessResult[chatid]['histore'] = guessResult[chatid]['histore'][0:29]
-    if sum <= 10:
-        guessResult[chatid]['histore'] += 'x'
-        sum ='x'
-    else:
-        guessResult[chatid]['histore'] += 'd'
-        sum = 'd'
-    return msg
-
 def end_play_list(chatid)->str:
     # 这是结算时的玩家列表
-
-
     msg = "\n玩家列表:"
     for key in guessResult[chatid]['state'].keys():
-        if guessResult[chatid]['state'][key][1] == sum:
+        if guessResult[chatid]['state'][key][1] == guessResult[chatid]['histore'][-1]:
             msg += f"\n{guessResult[chatid]['state'][key][0]}:胜利 😊"
         else:
             msg += f"\n{guessResult[chatid]['state'][key][0]}:失败 😱"
+    msg += f"\n\n30局走势:{guessResult[chatid]['histore']}"
     return msg
 
 def help(chatid)->str:
+    print(guessResult)
     msg =  """
 猜大小 Noah&hdcola
 三个1到6的数字之和，10及以下是小，11及以上是大。
@@ -125,6 +125,7 @@ The sum of three numbers from 1 to 6, 10 and below is small and 11 and above is 
     elif guessResult[chatid]['step']=="play":
         msg += play_play_list(chatid)
     elif guessResult[chatid]['step']=="end":
+        msg += gen_end_result(chatid)
         msg += end_play_list(chatid)
     return msg
 
@@ -134,8 +135,9 @@ def guess_start(update : Update, context : CallbackContext):
     global guessResult
     chatid = update.effective_chat.id
     check_chatid(chatid)
-    if guessResult[chatid]["step"] == "":
-        guessResult[chatid]["step"] = "start"
+    # 新开局时，把所有的状态都清除
+    guessResult[chatid]['state']={}
+    guessResult[chatid]["step"] = "start"
     
     update.message.reply_text(help(chatid),reply_markup=init_replay_markup(start_buttons))
 
