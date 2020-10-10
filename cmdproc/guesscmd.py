@@ -116,7 +116,7 @@ def end_play_list(chatid)->str:
 def help(chatid)->str:
     # print(guessResult)
     msg =  """
-猜大小 Noah&hdcola
+猜大小
 三个1到6的数字之和，10及以下点小，11及以上点大。
 The sum of three numbers from 1 to 6, if you think the sum is 10 and below , you click 🔽
 If you think the sum is 11 and above , you click 🔼.
