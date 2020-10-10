@@ -95,7 +95,7 @@ def test_start(monkeypatch):
             assert kwargs['reply_markup'] == guesscmd.init_replay_markup(guesscmd.play_buttons)
         elif step == "x":
             assert "first_name:🔽小" in kwargs['text']
-            assert kwargs['reply_markup'] == guesscmd.init_replay_markup(guesscmd.start_buttons)
+            assert kwargs['reply_markup'] == guesscmd.init_replay_markup(guesscmd.play_buttons)
     
     # 大按钮
     dupdate = make_callback_query_update("","guess_play:d")
