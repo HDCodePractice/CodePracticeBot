@@ -114,7 +114,7 @@ def end_play_list(chatid)->str:
     return msg
 
 def help(chatid)->str:
-    print(guessResult)
+    # print(guessResult)
     msg =  """
 猜大小 Noah&hdcola
 三个1到6的数字之和，10及以下是小，11及以上是大。
