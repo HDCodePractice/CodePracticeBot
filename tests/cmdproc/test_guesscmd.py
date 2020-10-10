@@ -87,6 +87,8 @@ def test_start(monkeypatch):
             assert args[0] == "你选择了小"
         elif step == "xx":
             assert args[0] == "你已经选择了小"
+        elif step == "do":
+            assert args[0] == "结算结果"
 
     def guess_play_edit_message_text(*args, **kwargs):
         # print(f"args:{args}\nkwargs:{kwargs}\n\n")
@@ -96,6 +98,8 @@ def test_start(monkeypatch):
         elif step == "x":
             assert "first_name:🔽小" in kwargs['text']
             assert kwargs['reply_markup'] == guesscmd.init_replay_markup(guesscmd.play_buttons)
+        elif step == "do":
+            assert "结算结果" in kwargs['text']
     
     # 大按钮
     dupdate = make_callback_query_update("","guess_play:d")
@@ -105,6 +109,10 @@ def test_start(monkeypatch):
     xupdate = make_callback_query_update("","guess_play:x")
     monkeypatch.setattr(xupdate.callback_query, 'answer', guess_play_answer)
     monkeypatch.setattr(xupdate.callback_query, 'edit_message_text', guess_play_edit_message_text)
+    # 结算按钮
+    doupdate = make_callback_query_update("","guess_play:do")
+    monkeypatch.setattr(doupdate.callback_query, 'answer', guess_play_answer)
+    monkeypatch.setattr(doupdate.callback_query, 'edit_message_text', guess_play_edit_message_text)
     step="d"
     guess_play_callback(dupdate,None)
     step="dd"
@@ -113,3 +121,5 @@ def test_start(monkeypatch):
     guess_play_callback(xupdate,None)
     step="xx"
     guess_play_callback(xupdate,None)
+    step="do"
+    guess_play_callback(doupdate,None)
