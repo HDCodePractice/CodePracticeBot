@@ -43,7 +43,7 @@ def test_start(monkeypatch):
         # print(f"args:{args}\nkwargs:{kwargs}\n\n")
         nonlocal step
         if step == "start":
-            assert args[0] == "加入游戏成功！Join the game successfully!"
+            assert args[0] == "加入游戏成功！You joined the game successfully!"
             step = "join"
         elif step == "join":
             assert args[0] == "你已经加入游戏了！You're in the game!"
