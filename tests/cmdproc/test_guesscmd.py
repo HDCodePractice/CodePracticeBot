@@ -1,4 +1,3 @@
-from cmdproc.guesscmd import guess_play_callback, guess_start
 import pytest
 from cmdproc import guesscmd
 from tests.conftest import make_callback_query_update, make_command_update
@@ -114,12 +113,58 @@ def test_start(monkeypatch):
     monkeypatch.setattr(doupdate.callback_query, 'answer', guess_play_answer)
     monkeypatch.setattr(doupdate.callback_query, 'edit_message_text', guess_play_edit_message_text)
     step="d"
-    guess_play_callback(dupdate,None)
+    guesscmd.guess_play_callback(dupdate,None)
     step="dd"
-    guess_play_callback(dupdate,None)
+    guesscmd.guess_play_callback(dupdate,None)
     step="x"
-    guess_play_callback(xupdate,None)
+    guesscmd.guess_play_callback(xupdate,None)
     step="xx"
-    guess_play_callback(xupdate,None)
+    guesscmd.guess_play_callback(xupdate,None)
     step="do"
-    guess_play_callback(doupdate,None)
+    guesscmd.guess_play_callback(doupdate,None)
+
+def test_not_choose(monkeypatch):
+    def reply_text(*args, **kwargs):
+        pass
+    
+    def guess_answer(*args, **kwargs):
+        pass
+
+    def guess_edit_message_text(*args, **kwargs):
+        if step == "do":
+            assert ":未参与" in kwargs['text']
+
+    # guess_cmd
+    guessupdate = make_command_update("/guess")
+    monkeypatch.setattr(guessupdate.message, 'reply_text', reply_text)
+    # 加入游戏button
+    addupdate = make_callback_query_update("","guess_start:add")
+    monkeypatch.setattr(addupdate.callback_query, 'answer', guess_answer)
+    monkeypatch.setattr(addupdate.callback_query, 'edit_message_text', guess_edit_message_text)
+    # 开始button
+    startupdate = make_callback_query_update("","guess_start:start")
+    monkeypatch.setattr(startupdate.callback_query, 'answer', guess_answer)
+    monkeypatch.setattr(startupdate.callback_query, 'edit_message_text', guess_edit_message_text)
+    # 大按钮
+    dupdate = make_callback_query_update("","guess_play:d")
+    monkeypatch.setattr(dupdate.callback_query, 'answer', guess_answer)
+    monkeypatch.setattr(dupdate.callback_query, 'edit_message_text', guess_edit_message_text)
+    # 小按钮
+    xupdate = make_callback_query_update("","guess_play:x")
+    monkeypatch.setattr(xupdate.callback_query, 'answer', guess_answer)
+    monkeypatch.setattr(xupdate.callback_query, 'edit_message_text', guess_edit_message_text)
+    # 结算按钮
+    doupdate = make_callback_query_update("","guess_play:do")
+    monkeypatch.setattr(doupdate.callback_query, 'answer', guess_answer)
+    monkeypatch.setattr(doupdate.callback_query, 'edit_message_text', guess_edit_message_text)
+
+    step = ""
+    # 开始
+    guesscmd.guess_start(guessupdate,None)
+    # 加入游戏
+    guesscmd.guess_start_callback(addupdate,None)
+    # 开始游戏
+    guesscmd.guess_start_callback(startupdate,None)
+    # 直接结束
+    step = "do"
+    guesscmd.guess_play_callback(doupdate,None)

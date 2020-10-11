@@ -108,6 +108,8 @@ def end_play_list(chatid)->str:
     for key in guessResult[chatid]['state'].keys():
         if guessResult[chatid]['state'][key][1] == guessResult[chatid]['histore'][-1]:
             msg += f"\n{guessResult[chatid]['state'][key][0]}:胜利 😊"
+        elif guessResult[chatid]['state'][key][1] == "":
+            msg += f"\n{guessResult[chatid]['state'][key][0]}:未参与"
         else:
             msg += f"\n{guessResult[chatid]['state'][key][0]}:失败 😱"
     msg += f"\n\n30局走势:{guessResult[chatid]['histore']}"
