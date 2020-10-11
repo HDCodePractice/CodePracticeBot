@@ -9,7 +9,7 @@ Bot现在支持的功能：
 
 ```
 weather - 查询天气
-guess - 群体猜数 作者：Noah
+guess - 赌大小 贡献者:hdcola,Sicheng,Noah
 help - 查看帮助
 rewards - 奖励大转盘 作者:Sichengthebest
 penalties - 处罚大转盘 作者:Sichengthebest
