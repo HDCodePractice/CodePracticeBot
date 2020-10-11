@@ -31,7 +31,7 @@ def test_gen_end_result():
 def test_start(monkeypatch):
     # 测试发出/start命令
     def reply_text(*args, **kwargs):
-        assert "猜大小 Noah&hdcola" in args[0]
+        assert "猜大小" in args[0]
         assert kwargs['reply_markup'] == guesscmd.init_replay_markup(guesscmd.start_buttons)
     
     update = make_command_update("/guess")
