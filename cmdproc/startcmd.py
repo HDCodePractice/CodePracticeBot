@@ -14,8 +14,9 @@ def help():
     这是小怪兽们的作品集合，也是大家平时使用的Bot，欢迎大家使用。
 
     /weather - 查询天气 
-    /rewards - 奖励大转盘 作者:Sichengthebest
-    /penalties - 处罚大转盘 作者:Sichengthebest
+    /rewards - 奖励大转盘
+    /penalties - 处罚大转盘
+    /capitals - 学习国家首都的知识 作者：Sichengthebest
     /help - 查看帮助
 
     开发者用命令：
