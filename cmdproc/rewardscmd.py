@@ -19,7 +19,7 @@ def rewards(update : Update, context : CallbackContext):
     randomPenalty = random.choice(rewards)
     randomInt = random.randint(50,150)
     if randomPenalty == rewards[3]:
-        update.message.reply_text("%s\nDear %s, BOTGOD has decided give you %s, keep up the good work!\n亲爱的%s，BOTGOD已决定奖励您%s XP。继续加油！\nCreator/作者: Sichengthebest"%(
+        update.message.reply_text("%s\nDear %s, BOTGOD has decided give you %sXP, keep up the good work!\n亲爱的%s，BOTGOD已决定奖励您%s XP。继续加油！\nCreator/作者: Sichengthebest"%(
             randomPenalty,
             update.message.from_user.first_name,
             randomInt,

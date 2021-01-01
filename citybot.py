@@ -44,12 +44,13 @@ if __name__ == '__main__':
     print(f"Starting... ID: {str(CONFIG['ID'])} , Username: {CONFIG['Username']}")
 
     # 在这里加入功能
-    from cmdproc import startcmd,admincmd,weathercmd,infocmd,guesscmd
+    from cmdproc import startcmd,admincmd,weathercmd,infocmd,guesscmd,capitalscmd
     startcmd.add_dispather_city(dispatcher)
     admincmd.add_dispatcher(dispatcher)
     weathercmd.add_dispatcher(dispatcher)
     infocmd.add_dispatcher(dispatcher)
     guesscmd.add_dispatcher(dispatcher)
+    capitalscmd.add_handler(dispatcher)
 
     updater.start_polling()
     print('Started')
