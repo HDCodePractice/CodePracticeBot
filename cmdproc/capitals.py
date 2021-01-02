@@ -1,7 +1,6 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup,BotCommand
 from telegram.ext import Dispatcher, CommandHandler, CallbackQueryHandler
 import random
-import coins
 
 #  ==================================================
 #  start
@@ -132,8 +131,22 @@ countries = {
             "yes": "Algiers // 阿尔及尔",
             "no": ["Ouargla // 瓦尔格拉","Constantine // 君士坦丁","Bejaïa // 贝贾亚"],
             "haha": ["Annaba // 安那巴","Oran // 奥兰"]
+        },
+        "🇵🇪 Peru // 秘鲁 🇵🇪" : {
+            "yes": "Lima // 利马",
+            "no": ["Trujillo // 特鲁希略","Cuzco // 库斯科"],
+            "haha": ["Areqipa // 阿雷基帕","Iquitos // 伊基托斯"]
+        },
+        "🇳🇿 New Zealand // 新西兰 🇳🇿": {
+            "yes": "Wellington // 惠灵顿",
+            "no": ["Auckland // 奥克兰","Hamilton // 哈密尔顿(新西兰)"],
+            "haha": ["Christchurch // 基督城","Dunedin // 达尼丁"]
+        },
+        "🇵🇹 Portugal // 葡萄牙 🇵🇹": {
+            "yes": "Lisbon // 里斯本",
+            "no": ["Porto // 波尔图","Almendralejo // 阿尔门德拉莱霍"],
+            "haha": ["Faro // 法鲁","Coimbra // 科英布拉"]
         }
-
     },
     'hard':{
         "🇻🇪 Venezuela // 委内瑞拉 🇻🇪" : {
@@ -160,8 +173,22 @@ countries = {
             "yes": "Tbilisi // 第比利斯",
             "no" : ["Kutaisi // 库塔伊西","Batumi // 巴统"],
             "haha" : ["Borjomi // 博尔若米","Rustavi // 鲁斯塔维"] 
+        },
+        "🇨🇬 Congo // 刚果 🇨🇬": {
+            "yes": "Brazzaville // 布拉柴维尔",
+            "no": ["Kinshasa // 金夏沙","Pointe-Noire // 黑角","Dolisie // 卢博莫"],
+            "haha": ["Libreville // 利伯维尔","Mbandaka // 姆班达卡"]
+        },
+        "🇨🇱 Chile // 智利 🇨🇱": {
+            "yes": "Santiago // 圣地亚哥",
+            "no": ["Antofagasta // 安托法加斯塔","Concepción // 康塞普西翁","Valparaíso // 瓦尔帕莱索"],
+            "haha": ["Punta Arenas // 蓬塔阿雷纳斯","Copiapó // 科皮亚波"]
+        },
+        "🇵🇱 Poland // 波兰 🇵🇱": {
+            "yes": "Warsaw // 华沙",
+            "no": ["Wrocław // 弗罗茨瓦夫","Szczecin // 什切青","Gdańsk // 格但斯克"],
+            "haha": ["Lódź // 罗兹","Lublin // 鲁布林"]
         }
-
     },
     'extreme':{
         "🇵🇬 Papua New Guinea // 巴布亚新几内亚 🇵🇬" : {
@@ -169,9 +196,9 @@ countries = {
             "no":["Daru // 达鲁","Lae // 莱城"],
             "haha":["Jayapura // 查亚普拉"]
         },
-        "🇸🇮 Slovenia 🇸🇮" : {
+        "🇸🇮 Slovenia // 斯洛文尼亚 🇸🇮" : {
             "yes": "Ljubljana // 卢布尔雅那",
-            "no":["Bratislava // 布拉迪斯拉发","Koper // 科珀","Maribor // 马里博尔"],
+            "no":["Bratislava // 布拉迪斯拉发","Maribor // 马里博尔"],
             "haha":["Velenje // 维伦耶","Koper // 科珀"]
         },
         "🇲🇰 North Macedonia // 马其顿 🇲🇰": {
@@ -188,6 +215,16 @@ countries = {
             "yes": "Vilnius // 维尔纽斯",
             "no": ["Kaunas // 考纳斯","Šiauliai // 希奥利艾","Klaipėda // 克莱佩达"],
             "haha": ["Panevėžys // 帕内韦日斯","Palanga // 帕兰加"]
+        },
+        "🇧🇯 Benin // 贝宁 🇧🇯": {
+            "yes": "Porto-Novo // 波多诺伏",
+            "no": ["Parakou // 帕拉库","Natitinqou // 纳蒂丁古"],
+            "haha": ["Cotonou // 科托努","Kandi // 坎迪"]
+        },
+        "🇸🇰 Slovakia // 斯洛伐克 🇸🇰": {
+            "yes": "Bratislava // 布拉迪斯拉发",
+            "no": ["Košice // 科希策","Ljubljana // 卢布尔雅那"],
+            "haha": ["Lučenec // 卢切内茨","Zvolen // 兹沃伦","Nové Zámky // 新扎姆基"]
         }
     }
 }
@@ -249,18 +286,14 @@ def capitals_old(update,context):
 A general knowledge game! The bot will randomly generate a country and a number of answer choices, depending on your chosen difficulty level. The choices are as shown:
 -------------------------------
 - Easy : You are supposed to be cultivated enough to know these countries's capitals.
-Rewards: 10GP per correct answer, lose 50GP per wrong answer.
 -------------------------------
 - Normal : Quite easy questions for those who have at least observed correctly a map.
-Rewards: 25GP per correct answer, lose 20GP per wrong answer.
 -------------------------------
 - Hard : Quite hard countries, but most of which you have heard of, but probably not the capitals...
-Rewards: 50GP per correct answer, lose 10GP per wrong answer.
 -------------------------------
 - Extreme : Countries you have never heard of! Big cash to win, though!
-Rewards: 125GP per correct answer, lose 5GP per wrong answer.
 -------------------------------
-- Random : A random level! The same parameters as the chosen level, but the rewards gain a 10GP bonus (for right answers, smh) for being brave!
+- Random : A random level! The same parameters as the chosen level!
 -------------------------------
 Creator/作者: Sichengthebest"""%(update.effective_user.first_name,update.effective_user.first_name),reply_markup=get_kb(update)[0])
 
@@ -292,32 +325,8 @@ def capitalsCallback(update,context):
         send_msg += "\n"
     if youranswer == ranswer:
         send_msg += "你答对了！🎉🎉🎉"
-        if level == "easy":
-            coins.add_coins(user,10)
-            send_msg += "\n真厉害！你赢了10GP！🎊🎊🎊"
-        elif level == "normal":
-            coins.add_coins(user,25)
-            send_msg += "\n真厉害！你赢了25GP！🎊🎊🎊"
-        elif level == "hard":
-            coins.add_coins(user,50)
-            send_msg += "\n真厉害！你赢了50GP！🎊🎊🎊"
-        else:
-            coins.add_coins(user,125)
-            send_msg += "\n真厉害！你赢了125GP！🎊🎊🎊"
     else:
         send_msg += "你答错了！😭😭😭"
-        if level == "easy":
-            coins.add_coins(user,-50)
-            send_msg += "\n你输惨了！丢了50GP！"
-        elif level == "normal":
-            coins.add_coins(user,-20)
-            send_msg += "\n你输惨了！丢了20GP！"
-        elif level == "hard":
-            coins.add_coins(user,-10)
-            send_msg += "\n你输惨了！丢了10GP！"
-        else:
-            coins.add_coins(user,-5)
-            send_msg += "\n你输惨了！丢了5GP！"
     query.edit_message_text("%s"%send_msg,reply_markup=get_kb(update)[1])
 
 def restartCallback(update,context):
@@ -331,16 +340,12 @@ def restartCallback(update,context):
 -------------------------------
 Which level?
 - Easy : You are supposed to be cultivated enough to know these countries's capitals.
-Rewards: 10GP per correct answer, lose 50GP per wrong answer.
 -------------------------------
 - Normal : Quite easy questions for those who have at least observed correctly a map.
-Rewards: 25GP per correct answer, lose 20GP per wrong answer.
 -------------------------------
 - Hard : Quite hard countries, but most of which you have heard of, but probably not the capitals...
-Rewards: 50GP per correct answer, lose 10GP per wrong answer.
 -------------------------------
-- Extreme : Countries you have never heard of! Big cash to win, though!
-Rewards: 125GP per correct answer, lose 5GP per wrong answer.
+- Extreme : Countries you have never heard of!
 -------------------------------
 - Random : A random level, the same parameters as the chosen level!
 -------------------------------
