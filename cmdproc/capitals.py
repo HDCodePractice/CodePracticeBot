@@ -1,7 +1,6 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup,BotCommand
 from telegram.ext import Dispatcher, CommandHandler, CallbackQueryHandler
 import random
-import coins
 
 #  ==================================================
 #  start
