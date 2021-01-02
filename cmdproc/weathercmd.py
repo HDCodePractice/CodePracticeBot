@@ -13,7 +13,7 @@ from typing import List
 from pyowm import OWM
 from pyowm.weatherapi25.weather import Weather
 from telegram.ext import Dispatcher,CommandHandler,CallbackContext
-from telegram import Update
+from telegram import Update,BotCommand
 from datetime import datetime
 import pytz
 
@@ -162,9 +162,13 @@ def add_dispatcher(dp: Dispatcher):
     dp.add_handler(CommandHandler(["weather"], weather))
     dp.add_handler(CommandHandler(["setw"], setw_cmd))
     dp.add_handler(CommandHandler(["getw"], getw_cmd))
+    return get_command()
 
+def get_command():
+    return [BotCommand('weather','天气预报')]
 
 if __name__ == '__main__':
     owmkey = open("owmkey").read()
     owm = OWM(owmkey)
     print(get_weather(owm,lat=45.41,lon=-73.88))
+

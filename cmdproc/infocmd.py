@@ -13,3 +13,4 @@ def info(update : Update, context : CallbackContext):
 
 def add_dispatcher(dp: Dispatcher):
     dp.add_handler(CommandHandler(["info"], info))
+    return []

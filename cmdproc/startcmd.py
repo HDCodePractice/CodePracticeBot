@@ -5,9 +5,8 @@
 """
 
 import config
-from telegram import Update
+from telegram import Update,BotCommand
 from telegram.ext import Dispatcher,CommandHandler,CallbackContext
-from cmdproc import rpsgame
 
 def help():
     return """
@@ -16,7 +15,6 @@ def help():
     /weather - 查询天气 
     /rewards - 奖励大转盘
     /penalties - 处罚大转盘
-    /capitals - 学习国家首都的知识 作者：Sichengthebest
     /help - 查看帮助
 
     开发者用命令：
@@ -24,7 +22,7 @@ def help():
 
     管理员用命令：
     /admin 管理机器人
-    """.replace("-","\-")
+    """
 
 def help_city():
     return """
@@ -33,19 +31,19 @@ def help_city():
     /weather - 查询天气 
     /capitals - 学习国家首都的知识 作者：Sichengthebest
     /help - 查看帮助
-    """.replace("-","\-")
+    """
 
 def start(update : Update, context : CallbackContext):
-    msg = rpsgame.start(update,context)
-    if not msg:
-        msg = help()
-    update.message.reply_markdown_v2(msg)
+    msg = help()
+    update.message.reply_text(msg)
 
 def start_city(update : Update, context : CallbackContext):
-    update.message.reply_markdown_v2(help_city())
+    update.message.reply_text(help_city())
 
 def add_dispatcher(dp: Dispatcher):
     dp.add_handler(CommandHandler(["start","help"], start))
+    return [BotCommand('help','帮助')]
 
 def add_dispather_city(dp: Dispatcher):
     dp.add_handler(CommandHandler(["start","help"], start_city))
+    return [BotCommand('help','获取帮助')]

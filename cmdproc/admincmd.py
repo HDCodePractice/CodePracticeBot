@@ -99,4 +99,5 @@ def admin_cmd(update : Update, context : CallbackContext):
 def add_dispatcher(dp: Dispatcher):
     dp.add_handler(CommandHandler(["admin"], admin_cmd))
     dp.add_handler(CallbackQueryHandler(admin_cmd_callback,pattern="^admin:[A-Za-z0-9_]*"))
+    return []
     

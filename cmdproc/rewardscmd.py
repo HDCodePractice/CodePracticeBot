@@ -5,7 +5,7 @@
 """
 
 import config
-from telegram import Update
+from telegram import Update,BotCommand
 from telegram.ext import Dispatcher,CommandHandler,CallbackContext
 import random
 
@@ -30,3 +30,7 @@ def rewards(update : Update, context : CallbackContext):
 
 def add_dispatcher(dp: Dispatcher):
     dp.add_handler(CommandHandler(["rewards"], rewards))
+    return get_command()
+
+def get_command():
+    return [BotCommand('rewards','领取奖励')]

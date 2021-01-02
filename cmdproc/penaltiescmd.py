@@ -2,6 +2,8 @@
 
 import random
 from telegram.ext import CommandHandler, Dispatcher, updater
+from telegram import BotCommand
+
 def penalties(update,context):
     penalties = [
         "Great! You do not have to lose XP! 爽！您不必丢失XP！", 
@@ -26,3 +28,7 @@ def penalties(update,context):
 def add_dispatcher(dp: Dispatcher) :
     start_Handler = CommandHandler('penalties', penalties)
     dp.add_handler(start_Handler)
+    return get_command()
+
+def get_command():
+    return [BotCommand('penalties','领取处罚')]
