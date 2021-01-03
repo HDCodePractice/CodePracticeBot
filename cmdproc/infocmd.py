@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import config
-from telegram import Update
+from telegram import Update,BotCommand
 from telegram.ext import Dispatcher,CommandHandler,CallbackContext
 from json import dumps,loads
 
@@ -13,4 +13,4 @@ def info(update : Update, context : CallbackContext):
 
 def add_dispatcher(dp: Dispatcher):
     dp.add_handler(CommandHandler(["info"], info))
-    return []
+    return [BotCommand('info','查看消息的信息数据')]

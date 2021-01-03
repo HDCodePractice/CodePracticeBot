@@ -44,21 +44,22 @@ if __name__ == '__main__':
     print(f"Starting... ID: {str(CONFIG['ID'])} , Username: {CONFIG['Username']}")
 
     # 在这里加入功能
-    from cmdproc import startcmd,rewardscmd,admincmd,weathercmd,infocmd,penaltiescmd,guesscmd
+    from cmdproc import startcmd,rewardscmd,admincmd,weathercmd,infocmd,penaltiescmd,guesscmd,capitals
     commands = startcmd.add_dispatcher(dispatcher)
     commands = admincmd.add_dispatcher(dispatcher)
     commands = rewardscmd.add_dispatcher(dispatcher)
-    # commands += weathercmd.add_dispatcher(dispatcher)
-    # commands += penaltiescmd.add_dispatcher(dispatcher)    
-    # commands += guesscmd.add_dispatcher(dispatcher)
-    # commands += infocmd.add_dispatcher(dispatcher)
+    commands += weathercmd.add_dispatcher(dispatcher)
+    commands += penaltiescmd.add_dispatcher(dispatcher)    
+    commands += guesscmd.add_dispatcher(dispatcher)
+    commands += infocmd.add_dispatcher(dispatcher)
+    commands += capitals.add_handler(dispatcher)
     
     print(commands)
     updater.bot.set_my_commands(commands)
 
 
     updater.start_polling()
-    print('Started')
+    print('Started...')
     mysystemd.ready()
 
     updater.idle()

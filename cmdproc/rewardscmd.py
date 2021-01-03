@@ -33,4 +33,4 @@ def add_dispatcher(dp: Dispatcher):
     return get_command()
 
 def get_command():
-    return [BotCommand('rewards','领取奖励')]
+    return [BotCommand('rewards','Reward Spins // 奖励大转盘')]

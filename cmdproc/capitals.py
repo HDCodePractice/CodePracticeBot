@@ -377,11 +377,9 @@ def get_level(update,context):
     msg,markup = init_q(country[c],c,level,update.effective_user.id)
     query.edit_message_text("这是%s的游戏，如果你不叫%s，请不要乱点，请点 /capitals\n-------------------------------\n%s"%(update.effective_user.first_name,update.effective_user.first_name,msg),reply_markup=markup)
 
-def get_command():
-    return [BotCommand('capitals','How good are you at capitals? // 你了解所有首都吗？')]
-
 def add_handler(dispatcher):
     dispatcher.add_handler(CallbackQueryHandler(capitalsCallback,pattern="^cap:[A-Za-z0-9_-]*"))
     dispatcher.add_handler(CallbackQueryHandler(restartCallback,pattern="^capres:[A-Za-z0-9_-]*"))
     dispatcher.add_handler(CallbackQueryHandler(get_level,pattern="^caplvl:[A-Za-z0-9_-]*"))
     dispatcher.add_handler(CommandHandler('capitals', capitals_old))
+    return [BotCommand('capitals','How good are you at capitals? // 你了解所有首都吗？')]

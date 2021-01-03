@@ -15,6 +15,7 @@ def help():
     /weather - 查询天气 
     /rewards - 奖励大转盘
     /penalties - 处罚大转盘
+    /capitals - 学习国家首都的知识 作者：Sichengthebest
     /help - 查看帮助
 
     开发者用命令：
@@ -42,7 +43,7 @@ def start_city(update : Update, context : CallbackContext):
 
 def add_dispatcher(dp: Dispatcher):
     dp.add_handler(CommandHandler(["start","help"], start))
-    return [BotCommand('help','帮助')]
+    return [BotCommand('help','获取帮助')]
 
 def add_dispather_city(dp: Dispatcher):
     dp.add_handler(CommandHandler(["start","help"], start_city))

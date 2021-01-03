@@ -31,4 +31,4 @@ def add_dispatcher(dp: Dispatcher) :
     return get_command()
 
 def get_command():
-    return [BotCommand('penalties','领取处罚')]
+    return [BotCommand('penalties','Penalty Carousel // 处罚大转盘')]

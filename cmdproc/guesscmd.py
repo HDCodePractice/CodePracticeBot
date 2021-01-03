@@ -211,7 +211,4 @@ def add_dispatcher(dp:Dispatcher):
     dp.add_handler(CallbackQueryHandler(guess_start_callback,pattern="^guess_start:[A-Za-z0-9_]*"))
     dp.add_handler(CallbackQueryHandler(guess_play_callback,pattern="^guess_play:[A-Za-z0-9_]*"))
     dp.add_handler(guess_handler)
-    return get_command()
-
-def get_command():
     return [BotCommand('guess','猜大小')]
