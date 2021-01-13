@@ -26,10 +26,12 @@ def getmsgtype(update,context):
         elif update.message.reply_to_message.photo:
             msg = ''
             photo = update.message.reply_to_message.photo
+            lastindex = 0
             for i in photo:
                 msg += getobjinfo("photo",i)
+                lastindex += 1
             msg += '\n\nMade By Parker'
-            update.message.reply_photo(photo[0],caption=msg)
+            update.message.reply_photo(photo[lastindex],caption=msg)
         elif update.message.reply_to_message.audio:
             audio = update.message.reply_to_message.audio
             update.message.reply_audio(audio,caption=f'{getobjinfo("audio",audio)}\n\nMade By Parker')
@@ -53,4 +55,4 @@ def add_getmsgtypehandler(dp:Dispatcher):
     dp.add_handler(CommandHandler('getmsgtype', getmsgtype))
 
 def get_command():
-    return [BotCommand('getmsgtype','Get the msg type （Made by parker lol)']
+    return [BotCommand('getmsgtype','Get the msg type （Made by parker lol)')]
