@@ -4,7 +4,6 @@ from pyowm import OWM
 import config
 from telegram import Bot
 from cmdproc import weathercmd
-from telegram.ext import CommandHandler,Dispatcher
 
 def sendmsg(bot:Bot):
     ws = config.CONFIG['Weather']
