@@ -1,16 +1,10 @@
-from telegram.ext import Dispatcher,CommandHandler,CallbackQueryHandler
-from telegram import BotCommand
+#!/usr/bin/env python3
+
+from telegram.ext import Dispatcher,CommandHandler,CallbackContext
+from telegram import BotCommand,Update
 from json import dumps
 
-def getobjinfo (msgtype,msgobj):
-    msg = ""
-    for i in msg_type[msgtype]:
-        msg += str(f'{i} = {msgobj.__dict__[i]}\n')
-    return msg
-
-def getmsgtype(update,context):
-    global msg_type
-    msg_type = {
+msg_type = {
         "video":["file_id","file_unique_id","width","height","duration"],
         "photo":["file_id","file_unique_id","width","height","file_size"],
         "audio":["file_id","file_unique_id","mime_type","file_size"],
@@ -19,6 +13,14 @@ def getmsgtype(update,context):
         "video_note":["file_id","file_unique_id","length","duration"],
         "voice":["file_id","file_unique_id","duration","mime_type","file_size"]
     }
+
+def getobjinfo (msgtype,msgobj):
+    msg = ""
+    for i in msg_type[msgtype]:
+        msg += str(f'{i} = {msgobj.__dict__[i]}\n')
+    return msg
+
+def getmsgtype(update,context):
     if update.message.reply_to_message:
         if update.message.reply_to_message.video:
             video = update.message.reply_to_message.video
@@ -49,11 +51,14 @@ def getmsgtype(update,context):
             voice = update.message.reply_to_message.voice
             update.message.reply_voice(voice,caption=f'{getobjinfo("voice",voice)}\n\nMade By Parker')
     else:
-        msg = 'Helloooooo?! This command gives you the info for the MESSAGE YOU REPLIED TO! You didn\'t even reply to anything!'
+        info(update,context)
 
+def info(update : Update, context : CallbackContext):
+    u = str(update)
+    u = dumps(eval(u),indent=2)
+    context.bot.send_message(update.effective_user.id,text=u)
 
-def add_getmsgtypehandler(dp:Dispatcher):
-    dp.add_handler(CommandHandler('getmsgtype', getmsgtype))
-
-def get_command():
-    return [BotCommand('getmsgtype','Get the msg type （Made by parker lol)')]
+def add_dispatcher(dp:Dispatcher):
+    dp.add_handler(CommandHandler('ainfo', getmsgtype))
+    dp.add_handler(CommandHandler("info", info))
+    return [BotCommand('ainfo','Get the msg type （Made by parker lol)'),BotCommand('info','查看消息的信息数据')]
