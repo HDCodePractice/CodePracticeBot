@@ -1,3 +1,6 @@
 python-telegram-bot 
 pyowm
 pytz
+icalevents
+youtube-dl
+pafy

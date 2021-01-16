@@ -2,3 +2,6 @@ python-telegram-bot
 systemd-python
 pyowm
 pytz
+icalevents
+youtube-dl
+pafy
