@@ -2,7 +2,7 @@
 Description=CodePractice Bot Service
 
 [Service]
-ExecStart=/home/pi/py3/bin/python /home/pi/CodePracticeBot/bot.py -c /home/pi/cpbot
+ExecStart=/home/pi/py3/bin/python /home/pi/CodePracticeBot/bot.py -c /home/pi/config/cpbot
 Restart=on-failure
 Type=notify
 
