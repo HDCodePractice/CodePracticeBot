@@ -27,7 +27,7 @@ def getmsgtype(update,context):
     if update.message.reply_to_message:
         if update.message.reply_to_message.video:
             video = update.message.reply_to_message.video
-            update.message.reply_video(video,caption=f'{getobjinfo("video",video)}\nMade By Parker')
+            update.message.reply_video(video,caption=f'{getobjinfo("video",video)}\nMade By Parker&hdcola')
         elif update.message.reply_to_message.photo:
             msg = ''
             photo = update.message.reply_to_message.photo
@@ -36,23 +36,23 @@ def getmsgtype(update,context):
                 lastindex += 1
                 msg += f"\nPhoto {lastindex+1}:\n{getobjinfo('photo',i)}\n"
                 
-            msg += '\nMade By Parker'
+            msg += '\nMade By Parker&hdcola'
             update.message.reply_photo(photo[lastindex],caption=msg)
         elif update.message.reply_to_message.audio:
             audio = update.message.reply_to_message.audio
-            update.message.reply_audio(audio,caption=f'{getobjinfo("audio",audio)}\nMade By Parker')
+            update.message.reply_audio(audio,caption=f'{getobjinfo("audio",audio)}\nMade By Parker&hdcola')
         elif update.message.reply_to_message.animation:
             animation = update.message.reply_to_message.animation
-            update.message.reply_animation(animation,caption=f'{getobjinfo("animation",animation)}\nMade By Parker')
+            update.message.reply_animation(animation,caption=f'{getobjinfo("animation",animation)}\nMade By Parker&hdcola')
         elif update.message.reply_to_message.sticker:
             sticker = update.message.reply_to_message.sticker
-            update.message.reply_text(f'{getobjinfo("sticker",sticker)}\nMade By Parker')
+            update.message.reply_text(f'{getobjinfo("sticker",sticker)}\nMade By Parker&hdcola')
         elif update.message.reply_to_message.video_note:
             video_note = update.message.reply_to_message.sticker
-            update.message.reply_text(f'{getobjinfo("video_note",video_note)}\nMade By Parker')
+            update.message.reply_text(f'{getobjinfo("video_note",video_note)}\nMade By Parker&hdcola')
         elif update.message.reply_to_message.voice:
             voice = update.message.reply_to_message.voice
-            update.message.reply_voice(voice,caption=f'{getobjinfo("voice",voice)}\nMade By Parker')
+            update.message.reply_voice(voice,caption=f'{getobjinfo("voice",voice)}\nMade By Parker&hdcola')
         else:
             info(update,context)
     else:
@@ -67,4 +67,4 @@ def info(update : Update, context : CallbackContext):
 def add_dispatcher(dp:Dispatcher):
     dp.add_handler(CommandHandler('ainfo', getmsgtype))
     dp.add_handler(CommandHandler("info", info))
-    return [BotCommand('ainfo','得到消息中的对象声明（Made by parker lol)'),BotCommand('info','查看消息的信息数据')]
+    return [BotCommand('ainfo','得到消息中的对象声明（Made by Parker&hdcola)'),BotCommand('info','查看消息的信息数据')]
