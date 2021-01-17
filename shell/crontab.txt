@@ -1,1 +1,2 @@
+# 每天早上7:30发送天气预报
 30 7 * * * /home/pi/CodePracticeBot/shell/sendweather.sh
