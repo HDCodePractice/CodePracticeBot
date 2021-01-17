@@ -49,7 +49,7 @@ def getmsgtype(update,context):
             update.message.reply_text(f'{getobjinfo("sticker",sticker)}\nMade By Parker')
         elif update.message.reply_to_message.video_note:
             video_note = update.message.reply_to_message.sticker
-            update.message.reply_video_note(video_note,caption=f'{getobjinfo("video_note",video_note)}\nMade By Parker')
+            update.message.reply_text(f'{getobjinfo("video_note",video_note)}\nMade By Parker')
         elif update.message.reply_to_message.voice:
             voice = update.message.reply_to_message.voice
             update.message.reply_voice(voice,caption=f'{getobjinfo("voice",voice)}\nMade By Parker')
@@ -67,4 +67,4 @@ def info(update : Update, context : CallbackContext):
 def add_dispatcher(dp:Dispatcher):
     dp.add_handler(CommandHandler('ainfo', getmsgtype))
     dp.add_handler(CommandHandler("info", info))
-    return [BotCommand('ainfo','Get the msg type （Made by parker lol)'),BotCommand('info','查看消息的信息数据')]
+    return [BotCommand('ainfo','得到消息中的对象声明（Made by parker lol)'),BotCommand('info','查看消息的信息数据')]
