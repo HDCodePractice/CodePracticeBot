@@ -70,3 +70,7 @@ systemctl --user enable cpbot_service
 journalctl --user-unit cpbot_service
 sudo loginctl enable-linger $USER
 ```
+
+## crontab
+
+请见 shell/crontab.txt
