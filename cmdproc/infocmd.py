@@ -15,16 +15,19 @@ msg_type = {
     }
 
 def getobjinfo (msgtype,msgobj):
-    msg = ""
+    if msgtype == "photo":
+        msg = f"PhotoSize("
+    else:
+        msg = f"{msgtype.capitalize()}("
     for i in msg_type[msgtype]:
-        msg += str(f'{i} = {msgobj.__dict__[i]}\n')
-    return msg
+        msg += str(f'{i}="{msgobj.__dict__[i]}",')
+    return f"{msg[:-1]})\n"
 
 def getmsgtype(update,context):
     if update.message.reply_to_message:
         if update.message.reply_to_message.video:
             video = update.message.reply_to_message.video
-            update.message.reply_video(video,caption=f'{getobjinfo("video",video)}\n\nMade By Parker')
+            update.message.reply_video(video,caption=f'{getobjinfo("video",video)}\nMade By Parker')
         elif update.message.reply_to_message.photo:
             msg = ''
             photo = update.message.reply_to_message.photo
@@ -37,26 +40,29 @@ def getmsgtype(update,context):
             update.message.reply_photo(photo[lastindex],caption=msg)
         elif update.message.reply_to_message.audio:
             audio = update.message.reply_to_message.audio
-            update.message.reply_audio(audio,caption=f'{getobjinfo("audio",audio)}\n\nMade By Parker')
+            update.message.reply_audio(audio,caption=f'{getobjinfo("audio",audio)}\nMade By Parker')
         elif update.message.reply_to_message.animation:
             animation = update.message.reply_to_message.animation
-            update.message.reply_animation(animation,caption=f'{getobjinfo("animation",animation)}\n\nMade By Parker')
+            update.message.reply_animation(animation,caption=f'{getobjinfo("animation",animation)}\nMade By Parker')
         elif update.message.reply_to_message.sticker:
             sticker = update.message.reply_to_message.sticker
-            update.message.reply_sticker(sticker,caption=f'{getobjinfo("sticker",sticker)}\n\nMade By Parker')
+            update.message.reply_text(f'{getobjinfo("sticker",sticker)}\nMade By Parker')
         elif update.message.reply_to_message.video_note:
             video_note = update.message.reply_to_message.sticker
-            update.message.reply_video_note(video_note,caption=f'{getobjinfo("video_note",video_note)}\n\nMade By Parker')
+            update.message.reply_video_note(video_note,caption=f'{getobjinfo("video_note",video_note)}\nMade By Parker')
         elif update.message.reply_to_message.voice:
             voice = update.message.reply_to_message.voice
-            update.message.reply_voice(voice,caption=f'{getobjinfo("voice",voice)}\n\nMade By Parker')
+            update.message.reply_voice(voice,caption=f'{getobjinfo("voice",voice)}\nMade By Parker')
+        else:
+            info(update,context)
     else:
         info(update,context)
 
 def info(update : Update, context : CallbackContext):
     u = str(update)
     u = dumps(eval(u),indent=2)
-    context.bot.send_message(update.effective_user.id,text=u)
+    update.message.reply_text(text=u)
+    # context.bot.send_message(update.effective_user.id,text=u)
 
 def add_dispatcher(dp:Dispatcher):
     dp.add_handler(CommandHandler('ainfo', getmsgtype))
