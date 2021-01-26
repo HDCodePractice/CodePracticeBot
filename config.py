@@ -9,7 +9,7 @@ dumps = json.dumps
 dump = json.dump
 
 config_file = ""
-run_path = os.getcwd()
+run_path = os.path.split(os.path.realpath(__file__))[0]
 
 CONFIG = {}
 
