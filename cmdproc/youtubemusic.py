@@ -17,7 +17,7 @@ def youtubemusic(update,context):
             return
         img = f"{config.run_path}/imgs/downloading.jpg"
         msg = update.message.reply_photo(open(img,'rb'),caption=f"正在下载你的音乐/Downloading your music of {music_size/1000}KB...")
-        bestaudio.download(filepath=filepath)
+        bestaudio.download(filepath=filepath,quiet=True)
         msg.edit_media(InputMediaAudio(open(filepath,'rb')),timeout=60)
         os.remove(filepath)
     else:
