@@ -44,14 +44,14 @@ if __name__ == '__main__':
     print(f"Starting... ID: {str(CONFIG['ID'])} , Username: {CONFIG['Username']}")
 
     # 在这里加入功能
-    from cmdproc import startcmd,admincmd,weathercmd,infocmd,guesscmd,capitals
+    from cmdproc import startcmd,admincmd,weathercmd
+    from cmdproc import youtubemusic
 
     commands = startcmd.add_dispather_city(dispatcher)
     commands += admincmd.add_dispatcher(dispatcher)
     commands += admincmd.add_dispatcher(dispatcher)
     commands += weathercmd.add_dispatcher(dispatcher)
-    commands += guesscmd.add_dispatcher(dispatcher)
-    commands += capitals.add_handler(dispatcher)
+    commands += youtubemusic.add_dispatcher(dispatcher)
 
     updater.bot.set_my_commands(commands)
 

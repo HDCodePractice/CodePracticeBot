@@ -9,6 +9,7 @@ dumps = json.dumps
 dump = json.dump
 
 config_file = ""
+run_path = os.getcwd()
 
 CONFIG = {}
 
