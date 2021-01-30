@@ -74,3 +74,5 @@ sudo loginctl enable-linger $USER
 ## crontab
 
 请见 shell/crontab.txt
+
+Claire: 我来了
