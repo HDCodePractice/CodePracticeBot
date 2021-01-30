@@ -74,3 +74,5 @@ sudo loginctl enable-linger $USER
 ## crontab
 
 请见 shell/crontab.txt
+
+Sicheng: Noah和parker是大bug!!!
