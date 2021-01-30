@@ -74,3 +74,9 @@ sudo loginctl enable-linger $USER
 ## crontab
 
 请见 shell/crontab.txt
+
+
+
+
+
+Parker: Sicheng is a big BUG
