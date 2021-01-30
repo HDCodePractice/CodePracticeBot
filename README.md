@@ -84,3 +84,6 @@ hdcola:这是一个好东东
 Sicheng: Noah和parker是大bug!!!
 Parker: Sicheng is a big BUG
 Noah: 我是新的房东
+
+
+Sicheng is a 🐛
