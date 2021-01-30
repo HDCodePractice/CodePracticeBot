@@ -75,8 +75,11 @@ sudo loginctl enable-linger $USER
 
 请见 shell/crontab.txt
 
-Sicheng: Noah和parker是大bug!!!
 
+
+Parker: Sicheng is a big BUG
+Noah: 我是新的房东
+Sicheng: Noah和parker是大bug!!!
 parker is the ultimate bug
 i'm not a bug
 so shut
