@@ -24,7 +24,7 @@ def youtubemusic(update,context):
         msg = update.message.reply_photo(open(img,'rb'),caption=f"正在下载你的音乐/Downloading your music of {music_size/1000}KB...")
         bestaudio.download(filepath=filepath,quiet=True)
         msg.edit_media(InputMediaAudio(open(filepath,'rb')),timeout=60)
-        # os.remove(filepath)
+        os.remove(filepath)
     else:
         update.message.reply_text("对不起，需要给我一个像样儿的网址/Sorry, but I need a URL after that.比如:\n/ytm ")
 
