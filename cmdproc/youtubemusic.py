@@ -3,14 +3,19 @@ from telegram import BotCommand,InputMediaAudio,PhotoSize
 import pafy
 import os
 import config
+import re
 
+def validateTitle(title):
+    rstr = r"[\/\\\:\*\?\"\<\>\|]"  # '/ \ : * ? " < > |'
+    new_title = re.sub(rstr, "", title)  # 替换为下划线
+    return new_title
 
 def youtubemusic(update,context):
     if len(context.args) == 1:
         url = context.args[0]
         video = pafy.new(url)
         bestaudio = video.getbestaudio(preftype="m4a")
-        filepath = f"/tmp/{bestaudio.title}.{bestaudio.extension}"
+        filepath = f"/tmp/{validateTitle(bestaudio.title)}.{bestaudio.extension}"
         music_size = bestaudio.get_filesize()
         if music_size > 1000*1000*10:
             update.message.reply_text("对不起，这个音乐超过了10MB！Sorry, this music is more than 10MB.")
