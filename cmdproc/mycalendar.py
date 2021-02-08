@@ -5,8 +5,10 @@ from telegram.ext import JobQueue, CommandHandler, Updater
 from telegram import bot
 import config
 
-
-cals = config.CONFIG['cal']
+if 'cal' in config.CONFIG:
+    cals = config.CONFIG['cal']
+else:
+    cals = {}
 
 def save():
     config.CONFIG['cal'] = cals
@@ -32,6 +34,9 @@ def get_cal(context):
     context.bot.send_message(job.context,msg)
 
 def show_cal(update,context):
+    uid = update.effective_user.id
+    if not uid in config.CONFIG['Admin']:
+        return
     msg = 'Here are your calendars:'
     for chatid in cals:
         msg += f'''
@@ -43,6 +48,9 @@ def show_cal(update,context):
     update.message.reply_text(msg)
 
 def show_job(update,context):
+    uid = update.effective_user.id
+    if not uid in config.CONFIG['Admin']:
+        return
     msg = 'Here is a list of jobs:'
     for job in context.job_queue.jobs():
         msg += f'\n{job.name}: {datetime.strftime(job.next_t,"%H:%M")}'
@@ -50,21 +58,31 @@ def show_job(update,context):
 
 def set_cal(update,context):
     uid = update.effective_user.id
-    if not uid in config.CONFIG['admin']:
+    if not uid in config.CONFIG['Admin']:
         update.message.reply_text('Sorry, you\'re not an admin.')
         return
     if len(context.args) == 0:
-        update.message.reply_text('Here\'s the format you need to respect to subscribe to your calendar notifications:\n\n/get_cal@SichengGodBot {Your Apple Calendar URL} {The time you want the notification sent, for example, 17:00} {Your time zone, for example, US/Eastern}\n\nFor a list of time zones please check https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568#file-pytz-time-zones-py')
+        update.message.reply_text(
+            'Here\'s the format you need to respect to subscribe to your calendar notifications:\n\n/setcal {Your Apple Calendar URL} {The time you want the notification sent, for example, 17:00} {Your time zone, for example, US/Eastern}\n\nFor a list of time zones please check https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568#file-pytz-time-zones-py',
+            disable_web_page_preview=True)
+        return
+    if len(context.args) == 1:
+        chatid = context.args[0]
+        if chatid in cals:
+            del cals[chatid]
+            update.effective_message.reply_text('remove ok!')
+        save()
+        run_daily(context.job_queue)
         return
     if len(context.args) > 3:
-        update.message.reply_text('Too many arguments! Please follow this format: /set_cal@CodePracticeBot {Your Apple Calendar URL} {The time you want the notification sent, for example, 17:00} {Your time zone, for example, US/Eastern}')
+        update.message.reply_text('Too many arguments! Please follow this format: /setcal {Your Apple Calendar URL} {The time you want the notification sent, for example, 17:00} {Your time zone, for example, US/Eastern}')
         return
     url = context.args[0]
     time = context.args[1]
     timezone = context.args[2]
     chatid = update.effective_chat.id
     if not timezone in pytz.all_timezones:
-        update.message.reply_text('Sorry, that is not a valid time zone. Please check this website for more info: https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568#file-pytz-time-zones-py')
+        update.message.reply_text('Sorry, that is not a valid time zone. Please check this website for more info: https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568#file-pytz-time-zones-py',disable_web_page_preview=True)
         return
     cals[str(chatid)] = {}
     cals[str(chatid)]['url'] = url
@@ -78,6 +96,7 @@ def set_cal(update,context):
         update.message.reply_text('BIG DUMMY AN HOUR HAS 60 MINUTES WTH')
         return
     cals[str(chatid)]['time'] = [hours,minutes,timezone]
+    save()
     update.message.reply_text(f'Success! You will receive notifications every day at {time}.')
     run_daily(context.job_queue)
 
@@ -89,7 +108,9 @@ def run_daily(job_queue):
                 job.schedule_removal()
         job_queue.run_daily(get_cal,time(calstuff['time'][0],calstuff['time'][1],0,0,pytz.timezone(calstuff['time'][2])),context=chatid,name=chatid)
 
-def add_handler(dp):
-    dp.add_handler(CommandHandler('set_cal',set_cal))
-    dp.add_handler(CommandHandler('show_cal',show_cal))
-    dp.add_handler(CommandHandler('show_jobs',show_job))
+def add_dispatcher(dp):
+    dp.add_handler(CommandHandler('setcal',set_cal))
+    dp.add_handler(CommandHandler('showcal',show_cal))
+    dp.add_handler(CommandHandler('showjobs',show_job))
+    run_daily(dp.job_queue)
+    return []
