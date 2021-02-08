@@ -45,13 +45,14 @@ if __name__ == '__main__':
 
     # 在这里加入功能
     from cmdproc import startcmd,admincmd,weathercmd
-    from cmdproc import youtubemusic
+    from cmdproc import youtubemusic,mycalendar
 
     commands = startcmd.add_dispather_city(dispatcher)
     commands += admincmd.add_dispatcher(dispatcher)
     commands += admincmd.add_dispatcher(dispatcher)
     commands += weathercmd.add_dispatcher(dispatcher)
     commands += youtubemusic.add_dispatcher(dispatcher)
+    commands += mycalendar.add_dispatcher(dispatcher)
 
     updater.bot.set_my_commands(commands)
 
