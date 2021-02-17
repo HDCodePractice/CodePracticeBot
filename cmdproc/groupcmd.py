@@ -18,7 +18,7 @@ def get_start_msg():
 点击后面的链接加入我们的股票开心聊群：
 https://t.me/joinchat/IzsBA-YckmcYdpyX
 
-点击后面的链接加入我们的旅❤️团友群：
+点击后面的链接加入我们的旅行团友群：
 https://t.me/joinchat/H7BPD0eLWqvSTPKB
 """
 
@@ -36,4 +36,5 @@ def add_dispatcher(dp: Dispatcher):
     get_start_msg()
     dp.add_handler(CommandHandler(["start","help"], start_cmd))
     # dp.add_handler(CommandHandler(["top"], top_cmd))
-    return [BotCommand('help','获得进群帮助'),BotCommand('top','得到群精华')]
+    # return [BotCommand('help','获得进群帮助'),BotCommand('top','得到群精华')]
+    return [BotCommand('help','获得进群帮助')]
