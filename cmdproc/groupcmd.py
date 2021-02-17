@@ -28,7 +28,7 @@ def delete_reply_msg(context : CallbackContext):
         context.bot.delete_message(msg.chat.id,msg.message_id)
 
 def start_cmd(update : Update, context : CallbackContext):
-    delete_time = 30
+    delete_time = 10
     msg = update.effective_message.reply_text(wellcom_msg,disable_web_page_preview=True)
     context.job_queue.run_once(delete_reply_msg,delete_time,context=[msg,update.effective_message],name=f"delete_msg_{msg.message_id}")
 
