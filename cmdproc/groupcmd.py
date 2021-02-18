@@ -20,6 +20,9 @@ https://t.me/joinchat/IzsBA-YckmcYdpyX
 
 点击后面的链接加入我们的旅行团友群：
 https://t.me/joinchat/H7BPD0eLWqvSTPKB
+
+点击后面的链接加入我们的狼人杀现场：
+https://t.me/joinchat/H3E3Y_WL4MABeF9s
 """
 
 def delete_reply_msg(context : CallbackContext):
