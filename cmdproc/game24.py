@@ -96,34 +96,34 @@ def proc_text(update,context):
     chatid = update.effective_chat.id
     uid = str(update.effective_user.id)    
     msg = ""
-    answer = update.message.text.replace(".","")
-    try: 
-        cards = games[chatid]['cards']
-        check_user(uid,chatid,first_name)
-        if not answer.replace(" ","") in games[chatid]['totalanswers']:
-            try:
-                if detective_system(answer,cards) == False:
-                    if int(eval(answer)) == 24:
-                        msg = f"{first_name} 答对啦！" 
-                        games[chatid]['users'][uid]['correct']['count'] += 1
-                        games[chatid]['users'][uid]['correct']['answer'].append(answer.replace(" ",""))
-                        games[chatid]['totalanswers'].append(answer.replace(" ",""))
-                        # print(games[chatid]['totalanswers'])  
-                    else:  
-                        msg = f"{first_name} 答错啦！"
+    answer = update.message.text.replace(".","").replace(" ","")
+    if answer[0].isdigit() or answer[0]=="(":
+        try: 
+            cards = games[chatid]['cards']
+            check_user(uid,chatid,first_name)
+            if not answer in games[chatid]['totalanswers']:
+                try:
+                    if detective_system(answer,cards) == False:
+                        if int(eval(answer)) == 24:
+                            msg = f"{first_name} 答对啦！" 
+                            games[chatid]['users'][uid]['correct']['count'] += 1
+                            games[chatid]['users'][uid]['correct']['answer'].append(answer.replace(" ",""))
+                            games[chatid]['totalanswers'].append(answer.replace(" ",""))
+                            # print(games[chatid]['totalanswers'])  
+                        else:  
+                            msg = f"{first_name} 答错啦！"
+                            games[chatid]['users'][uid]['error'] += 1
+                    else:
                         games[chatid]['users'][uid]['error'] += 1
-                else:
+                        msg = f"请使用我给你的那几个数字！需有查看更多规则，请查看 /gamerules ."                                                                                                                    
+                except:
+                    msg = f"{first_name} 答错啦！您的目标是尝试去使用 {games[chatid]['cards']} 来算出 24.\n请记住, 您只能使用 +, -, *, / 和 (). "
                     games[chatid]['users'][uid]['error'] += 1
-                    msg = f"请使用我给你的那几个数字！需有查看更多规则，请查看 /gamerules ."                                                                                                                    
-            except:
-                msg = f"{first_name} 答错啦！您的目标是尝试去使用 {games[chatid]['cards']} 来算出 24.\n请记住, 您只能使用 +, -, *, / 和 (). "
-                games[chatid]['users'][uid]['error'] += 1
-        else:
-            msg = f"{first_name}, 某某人已经说出来您的答案啦！"
-    except KeyError:
-        msg = "目前没有被开启的游戏。/gamestart24 来开启一个游戏。"
-    
-    update.effective_message.reply_text(msg)
+            else:
+                msg = f"{first_name}, 某某人已经说出来您的答案啦！"
+        except KeyError:
+            msg = "目前没有被开启的游戏。/gamestart24 来开启一个游戏。"
+        update.effective_message.reply_text(msg)
 
 def add_handler(dp:Dispatcher):
     dp.add_handler(CommandHandler('gamestart24', start))
