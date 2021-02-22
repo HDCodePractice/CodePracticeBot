@@ -25,13 +25,11 @@ https://t.me/joinchat/H7BPD0eLWqvSTPKB
 点击后面的链接加入我们的狼人杀现场：
 https://t.me/joinchat/H3E3Y_WL4MABeF9s
 """
-
-def get_stock_msg():
-    global wellcom_msg
+    global stock_msg
     if 'stock_start' in config.CONFIG:
-        wellcom_msg = config.CONFIG['stock_start']
+        stock_msg = config.CONFIG['stock_start']
     else:
-        wellcom_msg = """
+        stock_msg = """
 我们的旅行团友群：
 https://t.me/joinchat/H7BPD0eLWqvSTPKB
 
@@ -71,7 +69,7 @@ def start_cmd(update : Update, context : CallbackContext):
     delete_time = 30
     # stock group
     if update.effective_chat.id == -1001346239262: 
-        msg = update.effective_message.reply_text(wellcom_msg,disable_web_page_preview=True)
+        msg = update.effective_message.reply_text(stock_msg,disable_web_page_preview=True)
     else:
         msg = update.effective_message.reply_text(wellcom_msg,disable_web_page_preview=True)
     context.job_queue.run_once(delete_reply_msg,delete_time,context=[msg,update.effective_message],name=f"delete_msg_{msg.message_id}")
