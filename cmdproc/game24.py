@@ -6,7 +6,7 @@ from telegram import BotCommand
 games = {}
 
 def help():
-    return r"""欢迎来到 Noah 的 24 点游戏! 
+    return r"""欢迎来到 Noah 的 Grace阿姨带你玩24点游戏! 
     
 您的目标是尝试去使用四个数字来算出 24.
 请记住, 您只能使用 +, -, *, / 和 ()。 
@@ -82,10 +82,10 @@ def question(update,context):
 {lead}
 """)
     except KeyError:
-        update.effective_message.reply_text("目前没有被开启的游戏。/gamestart24@Noah24GameBot 来开启一个游戏。")
+        update.effective_message.reply_text("目前没有被开启的游戏。/gamestart24 来开启一个游戏。")
 
 def end(update,context):
-    update.effective_message.reply_text("游戏结束。/gamestart24@Noah24GameBot 来开启一个游戏。")
+    update.effective_message.reply_text("游戏结束。/gamestart24 来开启一个游戏。")
     del games[update.effective_chat.id]
 
 def rules(update,context):
@@ -114,14 +114,14 @@ def proc_text(update,context):
                         games[chatid]['users'][uid]['error'] += 1
                 else:
                     games[chatid]['users'][uid]['error'] += 1
-                    msg = f"请使用我给你的那几个数字！需有查看更多规则，请查看 /gamerules@Noahs24GameBot."                                                                                                                    
+                    msg = f"请使用我给你的那几个数字！需有查看更多规则，请查看 /gamerules ."                                                                                                                    
             except:
                 msg = f"{first_name} 答错啦！您的目标是尝试去使用 {games[chatid]['cards']} 来算出 24.\n请记住, 您只能使用 +, -, *, / 和 (). "
                 games[chatid]['users'][uid]['error'] += 1
         else:
             msg = f"{first_name}, 某某人已经说出来您的答案啦！"
     except KeyError:
-        msg = "目前没有被开启的游戏。/gamestart24@Noah24GameBot 来开启一个游戏。"
+        msg = "目前没有被开启的游戏。/gamestart24 来开启一个游戏。"
     
     update.effective_message.reply_text(msg)
 
@@ -130,7 +130,7 @@ def add_handler(dp:Dispatcher):
     dp.add_handler(CommandHandler('gameq', question))
     dp.add_handler(CommandHandler('gameend24', end))
     dp.add_handler(CommandHandler('gamerules', rules))
-    dp.add_handler(MessageHandler(Filters.text & (~Filters.command) & Filters.chat_type.supergroup,proc_text))
+    dp.add_handler(MessageHandler(Filters.text & (~Filters.command),proc_text))
     return [
         BotCommand('gamestart24','开始一个24点游戏'),
         BotCommand('gameq','查询当前进行中的24点游戏'),
