@@ -38,7 +38,7 @@ def set_games_cards(chatid,cards,uid,fname):
             'error':0
         }
     games[chatid]['totalanswers'] = []
-    print(games)
+    # print(games)
 
 def check_user(uid,chatid,first_name):
     if not uid in games[chatid]['users']:
@@ -108,7 +108,7 @@ def proc_text(update,context):
                         games[chatid]['users'][uid]['correct']['count'] += 1
                         games[chatid]['users'][uid]['correct']['answer'].append(answer.replace(" ",""))
                         games[chatid]['totalanswers'].append(answer.replace(" ",""))
-                        print(games[chatid]['totalanswers'])  
+                        # print(games[chatid]['totalanswers'])  
                     else:  
                         msg = f"{first_name} 答错啦！"
                         games[chatid]['users'][uid]['error'] += 1
