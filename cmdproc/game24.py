@@ -83,8 +83,6 @@ def question(update,context):
 """)
     except KeyError:
         update.effective_message.reply_text("目前没有被开启的游戏。/gamestart24@Noah24GameBot 来开启一个游戏。")
-    
-
 
 def end(update,context):
     update.effective_message.reply_text("游戏结束。/gamestart24@Noah24GameBot 来开启一个游戏。")
@@ -104,10 +102,7 @@ def proc_text(update,context):
         check_user(uid,chatid,first_name)
         if not answer.replace(" ","") in games[chatid]['totalanswers']:
             try:
-                if detective_system(answer,cards) == True:
-                    games[chatid]['users'][uid]['error'] += 1
-                    msg = f"请使用我给你的那几个数字！需有查看更多规则，请查看 /gamerules@Noahs24GameBot."
-                else:
+                if detective_system(answer,cards) == False:
                     if int(eval(answer)) == 24:
                         msg = f"{first_name} 答对啦！" 
                         games[chatid]['users'][uid]['correct']['count'] += 1
@@ -116,7 +111,10 @@ def proc_text(update,context):
                         print(games[chatid]['totalanswers'])  
                     else:  
                         msg = f"{first_name} 答错啦！"
-                        games[chatid]['users'][uid]['error'] += 1                                                                                                                                              
+                        games[chatid]['users'][uid]['error'] += 1
+                else:
+                    games[chatid]['users'][uid]['error'] += 1
+                    msg = f"请使用我给你的那几个数字！需有查看更多规则，请查看 /gamerules@Noahs24GameBot."                                                                                                                    
             except:
                 msg = f"{first_name} 答错啦！您的目标是尝试去使用 {games[chatid]['cards']} 来算出 24.\n请记住, 您只能使用 +, -, *, / 和 (). "
                 games[chatid]['users'][uid]['error'] += 1
