@@ -51,8 +51,9 @@ if __name__ == '__main__':
     config.set_default()
     print('Starting... (ID: ' + str(CONFIG['ID']) + ', Username: ' + CONFIG['Username'] + ')')
 
-    from cmdproc import groupcmd
+    from cmdproc import groupcmd,infocmd
     commands = groupcmd.add_dispatcher(dispatcher)
+    infocmd.add_dispatcher(dispatcher)
     updater.bot.set_my_commands(commands)
 
     updater.start_polling()
