@@ -66,10 +66,12 @@ def question(update,context):
     chatid = update.effective_chat.id
     correctAnswers = ""
     lead = ""
+    numofanswers = 0
     try:
         for uid in games[chatid]['users']:
             for answer in games[chatid]['users'][uid]['correct']['answer']:
-                correctAnswers += f"✔︎ {games[chatid]['users'][uid]['fname']}: {answer}\n"
+                correctAnswers += f"Answer #{numofanswers+1} {games[chatid]['users'][uid]['fname']}: {answer}\n"
+                numofanswers += 1
             lead += f"✨ {games[chatid]['users'][uid]['fname']}: ✅ {games[chatid]['users'][uid]['correct']['count']} 次正确 ❌ {games[chatid]['users'][uid]['error']} 次错误\n"
         update.effective_message.reply_text(f"""当前卡牌：{games[chatid]['cards']}
 --------------------
