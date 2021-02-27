@@ -6,7 +6,7 @@ from telegram import BotCommand
 games = {}
 
 def help():
-    return r"""Welcome to Noah's Aunt Grace's game of 24! 
+    return r"""Welcome to Noah's and Grace's game of 24! 
     
 Your goal is to try to use four numbers to figure out 24.
 Remember, you can only use +, -, *, / and (). 
@@ -70,9 +70,9 @@ def question(update,context):
     try:
         for uid in games[chatid]['users']:
             for answer in games[chatid]['users'][uid]['correct']['answer']:
-                correctAnswers += f"Answer #{numofanswers+1} {games[chatid]['users'][uid]['fname']}: {answer}\n"
                 numofanswers += 1
-            lead += f"✨ {games[chatid]['users'][uid]['fname']}: ✅ {games[chatid]['users'][uid]['correct']['count']} times correct ❌ {games[chatid]['users'][uid]['error']} times incorrect\n"
+                correctAnswers += f"Answer #{numofanswers+1} {games[chatid]['users'][uid]['fname']}: {answer}\n"
+            lead += f"✨ {games[chatid]['users'][uid]['fname']}: numofanswers {games[chatid]['users'][uid]['correct']['count']} times correct ❌ {games[chatid]['users'][uid]['error']} times incorrect\n"
         update.effective_message.reply_text(f"""Current Cards：{games[chatid]['cards']}
 --------------------
 Current correct answer.
