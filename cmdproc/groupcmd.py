@@ -36,9 +36,6 @@ https://t.me/joinchat/H7BPD0eLWqvSTPKB
 我们的狼人杀现场：
 https://t.me/joinchat/H3E3Y_WL4MABeF9s
 
-交易提醒加入机器人
-https://t.me/TradeAlertAssistantBot
-
 本群精华收集频道-听毛票女神和女皇的
 https://t.me/joinchat/TfWBdbo2jPd-rsRH
 
