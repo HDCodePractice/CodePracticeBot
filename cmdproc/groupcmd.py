@@ -42,6 +42,7 @@ https://t.me/joinchat/TfWBdbo2jPd-rsRH
 ARK交易跟踪频道
 https://t.me/ark_fyi_bot
 https://t.me/ARK_Trading_Desk
+https://ark.alien-tomato.com/
 
 两个财经快讯频道
 https://t.me/cnwallstreet
