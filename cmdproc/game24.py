@@ -93,7 +93,7 @@ Current correct answers:
 --------------------
 Individual rankings:
 
-{games[chatid]['lead']}
+{lead}
 {list_of_peoples_scores}
 """)
     except KeyError:
