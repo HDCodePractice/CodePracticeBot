@@ -1,5 +1,6 @@
 import json
 import os
+import config
 
 def load_config():
     with open(config_file, 'r') as configfile:
@@ -12,7 +13,7 @@ def save_config():
 
 RUN_PATH = os.getcwd()
 
-config_file = 'tw.json'
+config_file = f'{config.run_path}/tw.json'
 CONFIG = load_config()
 if not "LifetimeStats" in CONFIG:
     CONFIG["LifetimeStats"] = {}
