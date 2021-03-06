@@ -128,7 +128,8 @@ def answer(update,context):
             if character == '*' or character == '+' or character == '/' or character == '-':
                 signs.append(character)
         if len(signs) > 3 or len(signs) < 3:
-            update.message.reply_text("You must use the basic operations (+,-,*,/) 3 times only!")
+            games[chatid]['users'][uid]['incorrect'] += 1
+            update.message.reply_text(f"You must use the basic operations (+,-,*,/) 3 times only!\n{update.effective_user.first_name}, you now have {games[chatid]['users'][uid]['correct']} correct answers and {games[chatid]['users'][uid]['incorrect']} incorrect answers.")
             return
         for number in numbers:
             if not int(number) in cards:
