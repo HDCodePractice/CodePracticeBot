@@ -5,7 +5,7 @@ from telegram.ext import Dispatcher,CommandHandler, MessageHandler, Filters, Upd
 from telegram import BotCommand, PhotoSize
 
 games = {}
-LifetimeStats = config.CONFIG['LifetimeStats']
+LifetimeStats = twconfig.CONFIG['LifetimeStats']
 
 def help():
     return r"""欢迎来到 Noah 的 24 点游戏! 
@@ -240,7 +240,7 @@ def proc_text(update,context):
         except KeyError:
             msg = "目前没有被开启的游戏。/gamestart24 来开启一个游戏。"
         update.effective_message.reply_text(msg)
-    config.save_config()
+    twconfig.save_config()
 
 def add_handler(dp:Dispatcher):
     dp.add_handler(CommandHandler('gamestart24', start))
