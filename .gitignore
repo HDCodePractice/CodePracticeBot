@@ -132,3 +132,5 @@ dmypy.json
 .vscode
 owmkey
 .DS_Store
+# 24点游戏存档
+tw.json
