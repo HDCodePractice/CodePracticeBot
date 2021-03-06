@@ -8,14 +8,14 @@ games = {}
 LifetimeStats = twconfig.CONFIG['LifetimeStats']
 
 def help():
-    return r"""欢迎来到 Noah 的 24 点游戏! 
+    return r"""欢迎来到Grace阿姨的24点游戏! 
     
 您的目标是尝试去使用四个数字来算出 24。
 每张牌都必须使用一次，但不能重复使用。
 请记住, 您只能使用 加，减，乘，除，和括号 （请不要用不必要的括号）。 
 您只能使用三个加减乘除的符号。
 
-祝你们好运!"""
+祝你们好运@作者Noah、Sicheng"""
 
 def correctAnswers(func):
     return func['correct']
