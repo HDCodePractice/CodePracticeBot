@@ -3,13 +3,14 @@ from random import sample
 from telegram.ext import Dispatcher,CommandHandler, MessageHandler, Filters, Updater
 from telegram import BotCommand
 
+#Fix bug where users are added to lead twice: 
+
 games = {}
 
 def help():
-    return r"""Welcome to Noah's and Grace's game of 24! 
+    return r"""Welcome to Parker's game of 24! 
     
-Your goal is to try to use four numbers to figure out 24.
-Remember, you can only use +, -, *, / and (). 
+Your goal is to try to use four numbers to figure out 24
 
 Good luck!"""
 
@@ -25,7 +26,7 @@ def detective_system(answer,cards):
             Cheat = True
     return Cheat
 
-def set_games_cards(chatid,cards,uid,fname):
+def set_games_data(chatid,cards,uid,fname):
     games[chatid] = {}
     games[chatid]['cards'] = cards
     games[chatid]['users'] = {}
@@ -35,7 +36,8 @@ def set_games_cards(chatid,cards,uid,fname):
                 'count':0,
                 'answer':[]
             },
-            'error':0
+            'error':0,
+            'inlead':False
         }
     games[chatid]['totalanswers'] = []
     # print(games)
@@ -59,29 +61,40 @@ def start(update,context):
     update.effective_message.reply_text(f" {help()} The four numbers are：") 
 
     context.bot.send_message(chatid, text=f"{cards[0]}, {cards[1]}, {cards[2]}, {cards[3]}")
-    set_games_cards(chatid,cards,uid,fname)
+    set_games_data(chatid,cards,uid,fname)
 
 
 def question(update,context):
     chatid = update.effective_chat.id
     correctAnswers = ""
-    lead = ""
-    numofanswers = 0
     try:
         for uid in games[chatid]['users']:
+            if not 'lead' in games[chatid]:
+                lead = []
             for answer in games[chatid]['users'][uid]['correct']['answer']:
-                numofanswers += 1
-                correctAnswers += f"Answer #{numofanswers+1} {games[chatid]['users'][uid]['fname']}: {answer}\n"
-            lead += f"✨ {games[chatid]['users'][uid]['fname']}: numofanswers {games[chatid]['users'][uid]['correct']['count']} times correct ❌ {games[chatid]['users'][uid]['error']} times incorrect\n"
+                if not games[chatid]['users'][uid]['inlead'] == True:
+                    correctAnswers += f"{games[chatid]['users'][uid]['fname']}: {answer}\n"
+                    lead.append({"name":games[chatid]['users'][uid]['fname'], "count":games[chatid]['users'][uid]['correct']['count']})
+                    games[chatid]['users'][uid]['inlead'] = True
+                    print(lead)
+                    games[chatid]['lead'] = lead
+            
+            list_of_peoples_scores = []
+            for i in games[chatid]['users']:
+                list_of_peoples_scores.append(games[chatid]['users'][i]['correct']['count'])
+            list_of_peoples_scores.sort(reverse=True)
+
+
         update.effective_message.reply_text(f"""Current Cards：{games[chatid]['cards']}
 --------------------
-Current correct answer.
+Current correct answers:
 
 {correctAnswers}
 --------------------
-个人排行榜：
+Individual rankings:
 
-{lead}
+{games[chatid]['lead']}
+{list_of_peoples_scores}
 """)
     except KeyError:
         update.effective_message.reply_text("No games are currently opened. /gamestart24 to open a game。")
