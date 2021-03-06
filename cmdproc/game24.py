@@ -218,7 +218,7 @@ def proc_text(update,context):
                 try:
                     if detective_system(answer,cards) == False:
                         if int(eval(answer)) == 24:
-                            msg = f"{first_name} 答对啦！" 
+                            msg = f"🎉 {first_name} 答对啦！" 
                             games[chatid]['users'][uid]['correct']['count'] += 1
                             LifetimeStats[uid]['correct'] += 1
                             games[chatid]['users'][uid]['correct']['answer'].append([answer,datetime.datetime.now()])
