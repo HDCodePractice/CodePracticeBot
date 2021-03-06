@@ -1,4 +1,4 @@
-import random, string, re, datetime
+import random, string, re, datetime, config
 from cmdproc import twconfig
 from random import sample
 from telegram.ext import Dispatcher,CommandHandler, MessageHandler, Filters, Updater
@@ -168,7 +168,7 @@ def start(update,context):
     context.bot.send_message(chatid, text=f"{cards[0]}, {cards[1]}, {cards[2]}, {cards[3]}")
 
     if random.choice(range(1,4)) == 2:
-        context.bot.send_photo(chatid, photo=open('imgs/re.png', 'rb'), caption= "⚠️ 温馨提示：请把 Telegram 自动表情给关掉！")
+        context.bot.send_photo(chatid, photo=open(f'{config.run_path}/imgs/re.png', 'rb'), caption= "⚠️ 温馨提示：请把 Telegram 自动表情给关掉！")
 
     set_games_cards(chatid,cards,uid,fname)
 
