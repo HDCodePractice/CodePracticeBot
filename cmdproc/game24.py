@@ -38,9 +38,9 @@ def start(update,context):
     set_games_cards(chatid,putcards)
 
 def rules(update,context):
-    update.message.reply_text('''Welcome to 24! Your goal is to figure out how to make 24 with these numbers ( /q@sicheng24bot ).
-Remember, you can only use the basic operations. They are to be typed like this: +, -, *, /. Parentheses are allowed.
-Good Luck! Or is it luck?''')
+    update.message.reply_text('''欢迎来到24！您的目标是弄清楚如何用这些数字使24（/ q @ sicheng24bot）。
+请记住，您只能使用基本操作。它们的输入方式应为：+，-，*，/。允许使用括号。
+祝你好运！虽然这个不是运气...''')
 
 def question(update,context):
     chatid = update.effective_chat.id
@@ -48,10 +48,10 @@ def question(update,context):
     lead = ""
     dict1 = []
     if not chatid in games:
-        update.effective_message.reply_text("There is no game currently. Use /start24@sicheng24bot to start a game.")
+        update.effective_message.reply_text("目前没有运行的游戏。使用 /start24@sicheng24bot 来启动游戏。")
         return
     if games[chatid]['users'] == {}:
-        update.effective_message.reply_text(f"Current cards: {games[chatid]['cards']}. There are no answers currently.")
+        update.effective_message.reply_text(f"当前的卡片：{games[chatid]['cards']}。目前没有答案。")
         return
     for uid in games[chatid]['users']:
         dict1.append({'correct':float(f"{games[chatid]['users'][uid]['correct']}.{100000-games[chatid]['users'][uid]['incorrect']}"),'fname':games[chatid]['users'][uid]['fname'],'uid':uid})
