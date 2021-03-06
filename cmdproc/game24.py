@@ -166,9 +166,9 @@ def start(update,context):
     cards = random.choices(range(1,10),k=4) 
     update.effective_message.reply_text(f" {help()} \n\n四个数字分别是：") 
     context.bot.send_message(chatid, text=f"{cards[0]}, {cards[1]}, {cards[2]}, {cards[3]}")
-
+    img = f"{config.run_path}/imgs/re.png"
     if random.choice(range(1,4)) == 2:
-        context.bot.send_photo(chatid, photo=open('imgs/re.png', 'rb'), caption= "⚠️ 温馨提示：请把 Telegram 自动表情给关掉！")
+        context.bot.send_photo(chatid, photo=open(img, 'rb'), caption= "⚠️ 温馨提示：请把 Telegram 自动表情给关掉！")
 
     set_games_cards(chatid,cards,uid,fname)
 
