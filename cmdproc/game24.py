@@ -1,4 +1,5 @@
-import random, string, re, datetime, twconfig
+import random, string, re, datetime
+from cmdproc import twconfig
 from random import sample
 from telegram.ext import Dispatcher,CommandHandler, MessageHandler, Filters, Updater
 from telegram import BotCommand, PhotoSize
