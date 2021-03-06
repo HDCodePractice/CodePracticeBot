@@ -90,10 +90,10 @@ def sort_leaderboards(chatid,WLB,uids):
         PlayerStatus.sort(key=errors,reverse=False)
         PlayerStatus.sort(key=correctAnswers,reverse=True)
 
-        title = ["🏆 𝗖𝗵𝗮𝗺𝗽𝗶𝗼𝗻","🎖 𝗪𝗶𝗻𝗻𝗲𝗿","🏅 𝗩𝗶𝗰𝘁𝗼𝗿"]
+        title = ["🥇 #1","🥈 #2","🥉 #3"]
 
         for EachPlayer in PlayerStatus:  
-            if Placement != 1 and Placement != 2 and Placement != 3:
+            if Placement > 3:
                 Leaderboard += f"「{Placement}𝘁𝗵 𝗽𝗹𝗮𝗰𝗲」 ✨ {EachPlayer['fname']} | ✅ {EachPlayer['correct']} 次正确 ❌ {EachPlayer['error']} 次错误\n"
             else:
                 for Num in range(1,4):
