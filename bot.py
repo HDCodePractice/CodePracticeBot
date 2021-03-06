@@ -56,7 +56,8 @@ if __name__ == '__main__':
     commands += capitals.add_handler(dispatcher)
     commands += botadmincmd.add_dispatcher(dispatcher)
     commands += youtubemusic.add_dispatcher(dispatcher)
-    commands += game24.add_handler(dispatcher)
+    commands += game24.get_command()
+    game24.add_handler(dispatcher)
     
     updater.bot.set_my_commands(commands)
 
