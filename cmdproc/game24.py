@@ -11,11 +11,20 @@ def help():
     return r"""欢迎来到Grace阿姨的24点游戏! 
     
 您的目标是尝试去使用四个数字来算出 24 (四个数字可以在 /gameq 找到)。
-每张牌都必须使用一次，但不能重复使用。
+每张牌都必须使用一次。
 请记住, 您只能使用 加，减，乘，除，和括号 （请不要用不必要的括号）。 
 您只能使用三个加减乘除的符号。
 
-祝你们好运@作者Noah、Sicheng"""
+祝你们好运！@作者：Noah、Sicheng
+--------------------
+Welcome to Aunt Grace's 24 point game!
+    
+Your goal is to try to use four numbers to calculate 24 (the four numbers can be found in /gameq).
+Each card must be used once.
+Remember, you can only use addition, subtraction, multiplication, division, and parentheses (please don't use unnecessary parentheses).
+You can only use three symbols for addition, subtraction, multiplication, and division.
+
+Wish ya'll good luck! @: Noah, Sicheng"""
 
 def correctAnswers(func):
     return func['correct']
@@ -168,7 +177,7 @@ def start(update,context):
     context.bot.send_message(chatid, text=f"{cards[0]}, {cards[1]}, {cards[2]}, {cards[3]}")
 
     if random.choice(range(1,4)) == 2:
-        context.bot.send_photo(chatid, photo=open(f'{config.run_path}/imgs/re.png', 'rb'), caption= "⚠️ 温馨提示：请把 Telegram 自动表情给关掉！")
+        context.bot.send_photo(chatid, photo=open(f'{config.run_path}/imgs/re.png', 'rb'), caption= "⚠️ 温馨提示：请把 Telegram 自动表情给关掉！Reminder: Please turn off Telegram's automatic emoji replacement!")
 
     set_games_cards(chatid,cards,uid,fname)
 
@@ -180,21 +189,21 @@ def question(update,context):
 
     try:
         check_user(uid,chatid,first_name)
-        update.effective_message.reply_text(f"""当前卡牌：{games[chatid]['cards']}
+        update.effective_message.reply_text(f"""当前卡牌/Current cards：{games[chatid]['cards']}
 --------------------
-目前的正确答案：
-
+目前的正确答案/Current right answers：
+                                            
 {sort_leaderboards(chatid,"QCAT",games[chatid]['users'])}
 --------------------
-个人排行榜：
+个人排行榜/GameQ leaderboard：
 
 {sort_leaderboards(chatid,"QLB",games[chatid]['users'])}
 """)
     except KeyError:
-        update.effective_message.reply_text("目前没有被开启的游戏。/gamestart24 来开启一个游戏。")
+        update.effective_message.reply_text("目前没有被开启的游戏。/gamestart24 来开启一个游戏。There are currently no games opened. /gamestart24 to start a game.")
 
 def end(update,context):
-    update.effective_message.reply_text("游戏结束。/gamestart24 来开启一个游戏。")
+    update.effective_message.reply_text("游戏结束。/gamestart24 来开启一个游戏。Game ended. /gamestart24 to start a game.")
     del games[update.effective_chat.id]
 
 def rules(update,context):
@@ -218,27 +227,27 @@ def proc_text(update,context):
                 try:
                     if detective_system(answer,cards) == False:
                         if int(eval(answer)) == 24:
-                            msg = f"🎉 {first_name} 答对啦！" 
+                            msg = f"🎉 {first_name} 答对啦！{first_name} got it right!" 
                             games[chatid]['users'][uid]['correct']['count'] += 1
                             LifetimeStats[uid]['correct'] += 1
                             games[chatid]['users'][uid]['correct']['answer'].append([answer,datetime.datetime.now()])
                             games[chatid]['totalanswers'].append(answer)
                         else:  
-                            msg = f"{first_name} 答错啦！"
+                            msg = f"❌🤦 {first_name} 答错啦！{first_name} got it COMPLETELY WRONG!"
                             games[chatid]['users'][uid]['error'] += 1
                             LifetimeStats[uid]['error'] += 1
                     else:
                         games[chatid]['users'][uid]['error'] += 1
                         LifetimeStats[uid]['error'] += 1
-                        msg = f"请使用我给你的那几个数字，只用三个加减乘除的符号，并且不要使用不必要的括号！需有查看更多规则，请查看 /gamerules ."                                                                                                                    
+                        msg = f"❌🤦 请使用我给你的那几个数字，只用三个加减乘除的符号，并且不要使用不必要的括号！需有查看更多规则，请查看 /gamerules。Please use the numbers I gave you, use only three symbols for addition, subtraction, multiplication, and division, and don't use unnecessary parentheses! For more rules, please check /gamerules."                                                                                                                    
                 except:
-                    msg = f"{first_name} 答错啦！您的目标是尝试去使用 {games[chatid]['cards']} 来算出 24.\n请记住, 您只能使用 +, -, *, / 和 (). "
+                    msg = f"❌🤦 {first_name} 答错啦！您的目标是尝试去使用 {games[chatid]['cards']} 来算出 24.\n请记住, 您只能使用 +, -, *, / 和 ()。{first_name} got it wrong! Your goal is to try to use {games[chatid]['cards']} to calculate 24.\nRemember, you can only use +, -, *, / and ()."
                     games[chatid]['users'][uid]['error'] += 1
                     LifetimeStats[uid]['error'] += 1
             else:
-                msg = f"{first_name}, 某某人已经说出来您的答案啦！"
+                msg = f"{first_name}, 某某人已经说出来您的答案啦！{first_name}, someone has already said your answer!"
         except KeyError:
-            msg = "目前没有被开启的游戏。/gamestart24 来开启一个游戏。"
+            msg = "目前没有被开启的游戏。/gamestart24 来开启一个游戏。There are currently no games opened. /gamestart24 to start a game."
         update.effective_message.reply_text(msg)
     twconfig.save_config()
 
