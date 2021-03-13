@@ -194,14 +194,17 @@ def question(update,context):
     try:
         check_user(uid,chatid,first_name)
         update.effective_message.reply_text(f"""当前卡牌/Current cards：{games[chatid]['cards']}
---------------------
+-------------------
 目前的正确答案/Current right answers：
                                             
 {sort_leaderboards(chatid,"QCAT",games[chatid]['users'])}
---------------------
+-------------------
 个人排行榜/GameQ leaderboard：
 
 {sort_leaderboards(chatid,"QLB",games[chatid]['users'])}
+
+-------------------
+如想看您的终身统计，请使用 /gamel@CodePracticeBot /If you want to see your lifetime stats, please use /gamel@CodePracticeBot
 """)
     except KeyError:
         update.effective_message.reply_text("目前没有被开启的游戏。/gamestart24 来开启一个游戏。There are currently no games opened. /gamestart24 to start a game.")
