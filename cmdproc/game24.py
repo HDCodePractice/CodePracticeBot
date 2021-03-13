@@ -5,17 +5,17 @@ from telegram.ext import Dispatcher,CommandHandler, MessageHandler, Filters, Upd
 from telegram import BotCommand, PhotoSize
 
 games = {}
-LifetimeStats = twconfig.CONFIG['LifetimeStats']
+LifetimeStats = config.CONFIG['LifetimeStats']
 
 def help():
-    return r"""欢迎来到Grace阿姨的24点游戏! 
+    return r"""欢迎来到 Noah 的 24 点游戏! 
     
 您的目标是尝试去使用四个数字来算出 24。
 每张牌都必须使用一次，但不能重复使用。
 请记住, 您只能使用 加，减，乘，除，和括号 （请不要用不必要的括号）。 
 您只能使用三个加减乘除的符号。
 
-祝你们好运@作者Noah、Sicheng"""
+祝你们好运!"""
 
 def correctAnswers(func):
     return func['correct']
@@ -164,13 +164,18 @@ def start(update,context):
     fname = str(update.effective_user.first_name)
     chatid = update.effective_chat.id
     cards = random.choices(range(1,10),k=4) 
+    set_games_cards(chatid,cards,uid,fname)
+    while answer(chatid)[0] == "":
+        cards = random.choices(range(1,10),k=4) 
+        set_games_cards(chatid,cards,uid,fname)
+        continue
     update.effective_message.reply_text(f" {help()} \n\n四个数字分别是：") 
     context.bot.send_message(chatid, text=f"{cards[0]}, {cards[1]}, {cards[2]}, {cards[3]}")
 
     if random.choice(range(1,4)) == 2:
-        context.bot.send_photo(chatid, photo=open(f'{config.run_path}/imgs/re.png', 'rb'), caption= "⚠️ 温馨提示：请把 Telegram 自动表情给关掉！")
+        context.bot.send_photo(chatid, photo=open(f'{config.run_path}/Images/re.png', 'rb'), caption= "⚠️ 温馨提示：请把 Telegram 自动表情给关掉！")
 
-    set_games_cards(chatid,cards,uid,fname)
+    
 
 
 def question(update,context):
@@ -194,14 +199,97 @@ def question(update,context):
         update.effective_message.reply_text("目前没有被开启的游戏。/gamestart24 来开启一个游戏。")
 
 def end(update,context):
-    update.effective_message.reply_text("游戏结束。/gamestart24 来开启一个游戏。")
-    del games[update.effective_chat.id]
-
+    chatid = update.effective_chat.id
+    try:
+        update.message.reply_text(f"游戏结束。/gamestart24 来开启一个游戏。\n\n所有的正确答案：\n\n{answer(chatid)[0]}")
+        for i in range(1,7):
+            if not answer(chatid)[i] == "":
+                context.bot.send_message(chatid,text=answer(chatid)[i])
+        del games[chatid]
+    except KeyError:
+        update.effective_message.reply_text("目前没有被开启的游戏。/gamestart24 来开启一个游戏。")
+        
 def rules(update,context):
     update.message.reply_text(help())
 
 def List_Lifetime_Stats(update,context):
     update.message.reply_text(sort_leaderboards(update.effective_chat.id,"LTLB",LifetimeStats))
+
+def answer(chatid):
+    cards = [
+        games[chatid]['cards'][0],
+        games[chatid]['cards'][1],
+        games[chatid]['cards'][2],
+        games[chatid]['cards'][3]
+        ]
+    cards.sort()
+
+    AllPossibleCombs = []
+
+    correctAnswers = ""
+    correctAnswers2 = ""
+    correctAnswers3 = ""
+    correctAnswers4 = ""
+    correctAnswers5 = ""
+    correctAnswers6 = ""
+    correctAnswers7 = ""
+    correctAnswers8 = ""
+
+    count = 1
+
+    for n1 in cards:
+        for n2 in cards:
+            for n3 in cards:
+                for n4 in cards:
+                    comb = [n1,n2,n3,n4]
+                    comb.sort()
+                    if comb == cards and not f"{n1} f {n2} s {n3} t {n4}" in AllPossibleCombs:
+                        AllPossibleCombs.extend([
+                            f"{n1} f {n2} s {n3} t {n4}",
+                            f"({n1} f {n2}) s {n3} t {n4}", f"{n1} f ({n2} s {n3}) t {n4}", f"{n1} f {n2} s ({n3} t {n4})",
+                            f"(({n1} f {n2}) s {n3}) t {n4}", f"({n1} f ({n2} s {n3})) t {n4}", f"{n1} f (({n2} s {n3}) t {n4})", f"{n1} f ({n2} s ({n3} t {n4}))",
+                            f"({n1} f {n2}) s ({n3} t {n4})",
+                            f"({n1} f {n2} s {n3}) t {n4}", f"{n1} f ({n2} s {n3} t {n4})"
+                            ]) 
+    symbols = ["+","-","*","/"]
+    for each in AllPossibleCombs:
+        for s1 in symbols:
+            for s2 in symbols:
+                for s3 in symbols:
+                    e = each.replace("f",s1).replace("s",s2).replace("t",s3)
+                    try:
+                        answer = eval(e)
+                        if answer == 24:
+                            if count < 81:
+                                correctAnswers += f"{count} ✔︎ {e} = 24\n"
+                            elif count < 161:
+                                correctAnswers2 += f"{count} ✔︎ {e} = 24\n"
+                            elif count < 241:
+                                correctAnswers3 += f"{count} ✔︎ {e} = 24\n"
+                            elif count < 321:
+                                correctAnswers4 += f"{count} ✔︎ {e} = 24\n"
+                            elif count < 401:
+                                correctAnswers5 += f"{count} ✔︎ {e} = 24\n"
+                            elif count < 481:
+                                correctAnswers6 += f"{count} ✔︎ {e} = 24\n"
+                            elif count < 561:
+                                correctAnswers7 += f"{count} ✔︎ {e} = 24\n"
+                            elif count < 641:
+                                correctAnswers8 += f"{count} ✔︎ {e} = 24\n"
+                            count += 1
+                    except ZeroDivisionError:
+                        pass
+    return [
+        correctAnswers,
+        correctAnswers2,
+        correctAnswers3,
+        correctAnswers4,
+        correctAnswers5,
+        correctAnswers6,
+        correctAnswers7,
+        correctAnswers8
+        ]
+
 
 def proc_text(update,context):
     first_name = update.effective_user.first_name
@@ -240,7 +328,7 @@ def proc_text(update,context):
         except KeyError:
             msg = "目前没有被开启的游戏。/gamestart24 来开启一个游戏。"
         update.effective_message.reply_text(msg)
-    twconfig.save_config()
+    config.save_config()
 
 def add_handler(dp:Dispatcher):
     dp.add_handler(CommandHandler('gamestart24', start))
