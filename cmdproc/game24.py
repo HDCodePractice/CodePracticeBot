@@ -7,7 +7,53 @@ from datetime import datetime
 games = {}
 
 def myFunc(e):
-  return e['correct']
+    return e['correct']
+
+def check(solution):
+    try:
+        if eval(solution) == 24:
+            return True
+        return False
+    except ZeroDivisionError:
+        return False
+
+def get_numbers():
+    numbers = []
+    for a in range(0,4):
+        for b in range(0,4):
+            for c in range(0,4):
+                for d in range(0,4):
+                    if a == b or b == c or c == d or a == c or a == d or b == d:
+                        pass
+                    else:
+                        numbers.append([a,b,c,d])
+    return numbers
+
+def add_solution(solution,solutions):
+    if check(solution) == True:
+        if not solution in solutions:
+            solutions.append(solution)
+
+def get_answers(cards):
+    operations = ['+','-','*','/']
+    if len(cards) != 4:
+        return []
+    solutions = []
+    for i in operations:
+        for j in operations:
+            for k in operations:
+                for indexlist in get_numbers():
+                    solution = f'(({cards[indexlist[0]]} {i} {cards[indexlist[1]]}) {j} {cards[indexlist[2]]}) {k} {cards[indexlist[3]]}'
+                    add_solution(solution,solutions)
+                    solution = f'{cards[indexlist[0]]} {i} (({cards[indexlist[1]]} {j} {cards[indexlist[2]]}) {k} {cards[indexlist[3]]})'
+                    add_solution(solution,solutions)
+                    solution = f'({cards[indexlist[0]]} {i} ({cards[indexlist[1]]} {j} {cards[indexlist[2]]})) {k} {cards[indexlist[3]]}'
+                    add_solution(solution,solutions)
+                    solution = f'{cards[indexlist[0]]} {i} ({cards[indexlist[1]]} {j} ({cards[indexlist[2]]} {k} {cards[indexlist[3]]}))'
+                    add_solution(solution,solutions)
+                    solution = f'({cards[indexlist[0]]} {i} {cards[indexlist[1]]}) {j} ({cards[indexlist[2]]} {k} {cards[indexlist[3]]})'
+                    add_solution(solution,solutions)
+    return solutions
 
 def set_games_cards(chatid,cards):
     games[chatid] = {'answers':[],'users':{},'time':datetime.now()}
@@ -38,9 +84,9 @@ def start(update,context):
     set_games_cards(chatid,putcards)
 
 def rules(update,context):
-    update.message.reply_text('''欢迎来到24！您的目标是弄清楚如何用这些数字使24（/ q @ sicheng24bot）。
-请记住，您只能使用基本操作。它们的输入方式应为：+，-，*，/。允许使用括号。
-祝你好运！虽然这个不是运气...''')
+    update.message.reply_text('''Welcome to 24! Your goal is to figure out how to make 24 with these numbers ( /q@sicheng24bot ).
+Remember, you can only use the basic operations. They are to be typed like this: +, -, *, /. Parentheses are allowed.
+Good Luck! Or is it luck?''')
 
 def question(update,context):
     chatid = update.effective_chat.id
@@ -48,10 +94,10 @@ def question(update,context):
     lead = ""
     dict1 = []
     if not chatid in games:
-        update.effective_message.reply_text("目前没有运行的游戏。使用 /start24@sicheng24bot 来启动游戏。")
+        update.effective_message.reply_text("There is no game currently. Use /start24@sicheng24bot to start a game.")
         return
     if games[chatid]['users'] == {}:
-        update.effective_message.reply_text(f"当前的卡片：{games[chatid]['cards']}。目前没有答案。")
+        update.effective_message.reply_text(f"Current cards: {games[chatid]['cards']}. There are no answers currently.")
         return
     for uid in games[chatid]['users']:
         dict1.append({'correct':float(f"{games[chatid]['users'][uid]['correct']}.{100000-games[chatid]['users'][uid]['incorrect']}"),'fname':games[chatid]['users'][uid]['fname'],'uid':uid})
@@ -88,8 +134,15 @@ Leaderboard:{lead}
 
 def end(update,context):
     chatid = update.effective_chat.id
-    remove_games_cards(chatid)
+    solutions = get_answers(games[chatid]['cards'])
+    msg = f'There are {len(solutions)} answers to this question.'
+    index = 0
     update.message.reply_text('The game is now ended. Use /start24@sicheng24bot to start a new game.')
+    for answer in solutions:
+        index += 1
+        msg += f'\n{index}. {answer}'
+    update.message.reply_text(msg)
+    remove_games_cards(chatid)
 
 def answer(update,context):
     chatid = update.effective_chat.id
@@ -128,8 +181,7 @@ def answer(update,context):
             if character == '*' or character == '+' or character == '/' or character == '-':
                 signs.append(character)
         if len(signs) > 3 or len(signs) < 3:
-            games[chatid]['users'][uid]['incorrect'] += 1
-            update.message.reply_text(f"You must use the basic operations (+,-,*,/) 3 times only!\n{update.effective_user.first_name}, you now have {games[chatid]['users'][uid]['correct']} correct answers and {games[chatid]['users'][uid]['incorrect']} incorrect answers.")
+            update.message.reply_text("You must use the basic operations (+,-,*,/) 3 times only!")
             return
         for number in numbers:
             if not int(number) in cards:
