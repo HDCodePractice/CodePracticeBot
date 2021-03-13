@@ -8,7 +8,7 @@ games = {}
 LifetimeStats = twconfig.CONFIG['LifetimeStats']
 
 def help():
-    return r"""欢迎来到 Noah 的 24 点游戏! 
+    return r"""欢迎来到 Grace 的 24 点游戏! 
     
 您的目标是尝试去使用四个数字来算出 24 (四个数字可以在 /gameq 找到)。
 每张牌都必须使用一次。
