@@ -177,7 +177,6 @@ def start(update,context):
     while answer(chatid)[0] == "":
         cards = random.choices(range(1,10),k=4) 
         set_games_cards(chatid,cards,uid,fname)
-        continue
     update.effective_message.reply_text(f" {help()} \n\n四个数字分别是：") 
     context.bot.send_message(chatid, text=f"{cards[0]}, {cards[1]}, {cards[2]}, {cards[3]}")
 

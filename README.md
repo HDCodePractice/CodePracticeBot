@@ -13,10 +13,10 @@ guess - 赌大小 贡献者:hdcola,Sicheng,Noah
 help - 查看帮助
 rewards - 奖励大转盘 作者:Sichengthebest
 penalties - 处罚大转盘 作者:Sichengthebest
+gamestart24 - 开始一个新的游戏24。//Begin a new game of 24.
 ```
 
 隐藏功能：
-
 ```
 info - 查看消息的info，方便你在编程时来查找各种信息
 ```
