@@ -17,14 +17,14 @@ def help():
 
 祝你们好运！@作者：Noah、Sicheng
 --------------------
-Welcome to Aunt Grace's 24 point game!
+Welcome to Grace's game of 24!
     
 Your goal is to try to use four numbers to calculate 24 (the four numbers can be found in /gameq).
 Each card must be used once.
 Remember, you can only use addition, subtraction, multiplication, division, and parentheses (please don't use unnecessary parentheses).
 You can only use three symbols for addition, subtraction, multiplication, and division.
 
-Wish ya'll good luck! @: Noah, Sicheng"""
+Wish you all good luck! @: Noah, Sicheng, Parker"""
 
 def correctAnswers(func):
     return func['correct']
