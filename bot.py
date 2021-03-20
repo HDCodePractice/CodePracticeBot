@@ -45,7 +45,9 @@ if __name__ == '__main__':
 
     # 在这里加入功能
     from cmdproc import startcmd,rewardscmd,admincmd,weathercmd,infocmd,penaltiescmd,guesscmd,capitals,botadmincmd
-    from cmdproc import youtubemusic,game24
+    from cmdproc import youtubemusic,game24,story
+
+    story.add_handler(dispatcher)
     commands = startcmd.add_dispatcher(dispatcher)
     commands = admincmd.add_dispatcher(dispatcher)
     commands = rewardscmd.add_dispatcher(dispatcher)
@@ -57,6 +59,7 @@ if __name__ == '__main__':
     commands += botadmincmd.add_dispatcher(dispatcher)
     commands += youtubemusic.add_dispatcher(dispatcher)
     commands += game24.add_handler(dispatcher)
+    commands += story.get_command()
     
     updater.bot.set_my_commands(commands)
 
