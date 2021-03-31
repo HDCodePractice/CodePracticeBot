@@ -17,7 +17,7 @@ def get_start_msg():
         wellcom_msg = """
 欢迎来自clubhouse的朋友
 点击后面的链接加入我们的股票开心聊群：
-https://t.me/joinchat/IzsBA-YckmcYdpyX
+https://t.me/joinchat/CpWBiw6yHOkyYTVl
 
 点击后面的链接加入我们的旅行团友群：
 https://t.me/joinchat/H7BPD0eLWqvSTPKB
