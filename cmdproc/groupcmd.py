@@ -16,25 +16,31 @@ def get_start_msg():
     else:
         wellcom_msg = """
 欢迎来自clubhouse的朋友
-点击后面的链接加入我们的股票开心聊群：
+股票开心聊群：
 https://t.me/joinchat/CpWBiw6yHOkyYTVl
 
-点击后面的链接加入我们的旅行团友群：
+旅行团友群：
 https://t.me/joinchat/H7BPD0eLWqvSTPKB
 
-点击后面的链接加入我们的狼人杀现场：
+狼人杀现场：
 https://t.me/joinchat/H3E3Y_WL4MABeF9s
+
+Switch游戏玩不停
+https://t.me/joinchat/6OHFklcv-8JlZmM1
 """
     global stock_msg
     if 'stock_start' in config.CONFIG:
         stock_msg = config.CONFIG['stock_start']
     else:
         stock_msg = """
-我们的旅行团友群：
+旅行团友群：
 https://t.me/joinchat/H7BPD0eLWqvSTPKB
 
-我们的狼人杀现场：
+狼人杀现场：
 https://t.me/joinchat/H3E3Y_WL4MABeF9s
+
+Switch游戏玩不停
+https://t.me/joinchat/6OHFklcv-8JlZmM1
 
 本群精华收集频道-听毛票女神和女皇的
 https://t.me/joinchat/TfWBdbo2jPd-rsRH
